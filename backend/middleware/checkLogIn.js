@@ -1,3 +1,6 @@
+/**
+ * Hàm này không dùng
+ */
 module.exports = function isLoggedIn(req, res, next) {
     if (!req.session.currentUser) {
         return res.status(500).json({

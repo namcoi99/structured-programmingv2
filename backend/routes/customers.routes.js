@@ -1,7 +1,7 @@
 const express = require('express');
 const sql = require('mssql');
 const bcryptjs = require('bcryptjs');
-const isLoggedIn = require('../middleware/checkLogIn');
+// const isLoggedIn = require('../middleware/checkLogIn');
 
 const customerRouter = express.Router();
 
