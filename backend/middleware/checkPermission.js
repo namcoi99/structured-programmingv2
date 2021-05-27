@@ -1,3 +1,6 @@
+/**
+ * Hàm này không dùng
+ */
 module.exports = function isAdministrator(req, res, next) {
     console.log(req.session);
     // if (req.session.currentUser.username != 'tung' || req.session.currentUser.permission != '1111') {
