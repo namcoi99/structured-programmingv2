@@ -3,6 +3,7 @@ import '../Css/product.css';
 import NavBar from './NavBar';
 import axios from '../axios';
 
+// Đây là component hiển thị trang chi tiết sản phẩm
 class Product extends Component {
     state = {
         product: {},

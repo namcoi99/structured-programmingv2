@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import '../Css/home.css';
 
+
 class Product extends Component {
     render() {
+
         const item = this.props.item
         return (
             <div key={item.ProductID} className='trending-item-root'>
@@ -42,15 +44,18 @@ class Product extends Component {
     }
 }
 
+// Đây là component hiển thị nội dung trong Trang Chủ
 class HomeContent extends Component {
     constructor(props) {
         super(props)
-
+        // Lưu tất cả sản phẩm bao gồm cả sản phẩm thịnh hành(trending) vào state
         this.state = {
             trendingproducts: [],
             products: [],
             total: 0,
+            // phân loại các sản phẩm ở trang chủ
             currentCategory: 'Pizza',
+            // 2 thuộc tính này xử dụng để phân trang
             currentPageNumber: 1,
             maxPageNumber: 1,
         }
@@ -58,6 +63,7 @@ class HomeContent extends Component {
         this.getData(1);
     }
 
+    // Lấy ra các sản phẩm bán chạy nhất từ csdl
     getTrending = async () => {
         try {
             const data = await fetch(`http://localhost:5000/product/best-seller`,
@@ -69,13 +75,17 @@ class HomeContent extends Component {
             // window.alert(err.message);
         }
     }
+
+    // Lấy ra các sản phẩm theo phân loại hiện tại
     getData = async (pageNumber) => {
         try {
+            // các sản phẩm được lấy ra theo từng trang(pagination) với mỗi trang gồm 4 sản phẩm(pageSize=4) theo phân loại currentCategory hiện tại
             const data = await fetch(`http://localhost:5000/filter/category?pageNumber=${pageNumber}&pageSize=4&category=${this.state.currentCategory}`,
             ).then((res) => { return res.json(); });
             this.setState({
                 total: data.data.total,
                 products: data.data.recordset,
+                //Tổng số phân trang cho toàn bộ sản phẩm theo phân loại
                 maxPageNumber: Math.ceil(data.data.total / 4)
             });
         } catch (err) {
@@ -83,6 +93,7 @@ class HomeContent extends Component {
         }
     }
 
+    // Hiển thị sản phẩm theo số trang được chọn
     handlePageChange = (pageNumber) => {
         this.getData(pageNumber);
         this.setState({
@@ -90,6 +101,7 @@ class HomeContent extends Component {
         });
     }
 
+    // Tương tự handlePageChange nhưng là giảm số trang hiện tại đi 1
     handlePrevClick = () => {
         if (this.state.currentPageNumber > 1) {
             this.getData(this.state.currentPageNumber - 1);
@@ -99,6 +111,7 @@ class HomeContent extends Component {
         }
     }
 
+    // Tương tự handlePrevClick
     handleNextClick = () => {
         if (this.state.currentPageNumber < this.state.maxPageNumber) {
             this.getData(this.state.currentPageNumber + 1);
@@ -109,13 +122,16 @@ class HomeContent extends Component {
     }
 
     render() {
+        // Số trang từ 1 đến trang cuối cùng
         const paginations = [];
         for (let i = 1; i <= this.state.maxPageNumber; i++) {
             paginations.push(i);
         }
+        // Biến hiển thị các sản phẩm trending
         const Trending = this.state.trendingproducts.map(item => (
             <Product {...this.props} item={item} />
         ))
+        // Biến hiển thị tất cả sản phẩm theo phân loại và phân trang
         const Products = this.state.products.map(item => (
             <Product {...this.props} item={item} />
         ))
@@ -170,7 +186,9 @@ class HomeContent extends Component {
                     {/* pagination */}
                     <div className="pagination">
                         <div className="pagination-item pag-1"
+                            // Thay đổi sản phẩm theo phân loại(Category)
                             onClick={() => {
+                                // Thay đổi phân loại hiện tại trong state khi click vào phân loại tương ứng
                                 this.setState({
                                     currentCategory: 'Pizza',
                                     currentPageNumber: 1,
@@ -211,7 +229,9 @@ class HomeContent extends Component {
 
                         {/* TODO: Pagination */}
                         <nav aria-label="Page navigation">
+                            {/* Thay đổi sản phẩm theo số trang */}
                             <ul className="pagination justify-content-center pagination-temp">
+                                {/* Nếu là trang đầu tiên thì sẽ ko back lại trang trước được */}
                                 <li className={`page-item ${this.state.currentPageNumber === 1 ? 'disabled' : ''}`}
                                     onClick={this.handlePrevClick}>
                                     <a className="page-link" href='/' onClick={e => e.preventDefault()} aria-label="Previous">
@@ -219,9 +239,10 @@ class HomeContent extends Component {
                                         <span className="sr-only">Previous</span>
                                     </a>
                                 </li>
-
+                                {/* Custom style cho mục số trang */}
                                 {paginations.map((item) => {
                                     return (
+                                        // Nếu là trang hiện tại thì sẽ hiển thị là active
                                         <li className={`page-item ${item === this.state.currentPageNumber ? 'active' : ''}`}
                                             key={item}
                                             onClick={() => { this.handlePageChange(item) }}
@@ -230,7 +251,7 @@ class HomeContent extends Component {
                                         </li>
                                     );
                                 })}
-
+                                {/* Nếu là trang cuối cùng thì sẽ ko next trang sau được */}
                                 <li className={`page-item ${this.state.currentPageNumber === this.state.maxPageNumber ? 'disabled' : ''}`}
                                     onClick={this.handleNextClick}>
                                     <a className="page-link" href='/' onClick={e => e.preventDefault()} aria-label="Next">

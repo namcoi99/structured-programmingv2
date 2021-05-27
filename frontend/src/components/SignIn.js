@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import NavBar from './NavBar';
 import  '../Css/sign-in.css';
 
+// Đây là component hiển thị SignIn form
 class SignIn extends Component {
     state = {
         username: '',
         password: ''
     }
+
+    // Thay đổi state theo nội dung người dùng nhập vào form
     handleChange=(event) => {
         let target = event.target;
         let value = target.value;
@@ -17,6 +20,7 @@ class SignIn extends Component {
         });
     }
 
+    // Gửi request login cho backend
     handleSubmit=(e) => {
         e.preventDefault();
         console.log(this.state)

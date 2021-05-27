@@ -3,7 +3,9 @@ import '../Css/cart.css';
 import axios from '../axios';
 import NavBar from './NavBar';
 
+// Đây là component hiển thị giỏ hàng
 class Cart extends Component {
+    // state sẽ lưu trữ thông tin người dùng + thông tin giỏ hàng và giá tiền tổng cộng(total) các sản phẩm trong giỏ
     state = {
         // products: [],
         userInfo: [],
@@ -11,6 +13,7 @@ class Cart extends Component {
         total: 0
     }
 
+    // TODO: Tuấn
     async UNSAFE_componentWillMount() {
         const username = localStorage.getItem('username');
         try {
@@ -49,6 +52,7 @@ class Cart extends Component {
         }
     }
 
+    // Xử lý đặt hàng, thêm tất cả các item trong giỏ hàng vào đơn hàng và gửi request tạo đơn hàng trong csdl
     handlePurchase = async (event) => {
         event.preventDefault();
         let orderList = [];
@@ -60,13 +64,16 @@ class Cart extends Component {
             orderList.push(newItem);
         }
         console.log(orderList);
+        // gửi request tạo đơn hàng cho backend xử lý với method POST
         try {
             const data = await fetch("http://localhost:5000/order/new-order/", {
                 method: "POST",
+                // Dạng dữ liệu gửi cho backend là json
                 headers: {
                     "Content-Type": "application/json"
                 },
                 credentials: "include",
+                // nội dung dữ liệu gửi cho backend (total *1.05 là thêm tiền dịch vụ)
                 body: JSON.stringify({
                     username: localStorage.getItem('username'),
                     orderList: orderList,
@@ -75,6 +82,7 @@ class Cart extends Component {
                 })
             }).then((res) => { return res.json(); });
             console.log(data)
+            // Thông báo nếu tạo đơn hàng trong csdl thành công và ngược lại
             if (!data.success) {
                 window.alert(data.message);
             } else {
@@ -88,7 +96,7 @@ class Cart extends Component {
         }
     }
 
-
+    // Xóa item khỏi giỏ hàng(cart) lưu trong csdl
     _Delete = (item, event) => {
         event.preventDefault();
         console.log("xoa no:", item);
@@ -138,6 +146,7 @@ class Cart extends Component {
     // }
 
     render() {
+        // lấy danh sách item trong giỏ hàng từ state và hiển thị lên giao diện
         const cartItems = this.state.cartInfo.map(item => (
             <div key={item.ProductID} className="cart-item">
                 {/* <div className="cart-checkbox">
@@ -153,12 +162,15 @@ class Cart extends Component {
                     <span>{item.Price}</span>
                 </div>
                 <div className="cart-quantity">
+                    {/* Tăng giảm số lượng các items ở trang Cart bằng các hàm Decrease và Increase nhận được từ props */}
                     <div className='quantity-sub'>
                         <button type="button" onClick={(event) => this.props.Decrease(item, event)} className="btn btn-dark" ><i className="fas fa-minus" href="/home"></i></button>
                         <input type="number" name="quantity" min="1" placeholder={item.Quantity} />
                         <button type="button" onClick={(event) => this.props.Increase(item, event)} className="btn btn-light"><i className="fas fa-plus"></i></button>
                     </div>
                 </div>
+
+                {/* Thực hiện xóa item từ giỏ hàng sử dụng hàm Delete ở trên */}
                 <div className="cart-remove">
                     <div className="list-delete">
                         {/* <i className="fas fa-trash" onClick={(event) => { this._Delete(item, event) }}></i> */}
@@ -195,6 +207,7 @@ class Cart extends Component {
                                     <div className='header-delete'></div>
                                 </div>
                             </div>
+                            {/* Hiển thị danh sách các item trong giỏ hàng bằng biến cartItems đã tạo ở trên */}
                             <div className="cart-bottom-left-bottom">
                                 {cartItems}
                             </div>
@@ -238,10 +251,11 @@ class Cart extends Component {
                                         <div>(đã bao gồm VAT)</div>
                                     </div>
                                 </div>
+                                {/* Thực hiện tạo đơn hàng(order) sau khi người dùng xác nhận thanh toán bằng hàm handlePurchase ở trên */}
                                 <div className="summary-confirm">
                                     <button className="btn btn-danger btn-block" onClick={(event) => { this.handlePurchase(event); }}>
                                         Thanh toán
-                                        </button>
+                                    </button>
                                 </div>
                             </div>
                         </div>

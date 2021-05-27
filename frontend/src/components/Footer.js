@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../Css/home.css';
 import logo from '../Images/logo.png';
 
+// Đây là component hiển thị chân trang
 class Footer extends Component {
     render() {
         return (

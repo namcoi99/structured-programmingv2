@@ -3,6 +3,8 @@ import '../Css/sign-up.css';
 import axios from '../axios';
 import Navbar from './NavBar';
 
+
+// Đây là component hiển thị SignUp Form
 class SignUp extends Component {
     state = {
         username: '',
@@ -14,8 +16,10 @@ class SignUp extends Component {
         hasAgreed: false
     }
 
+    // Thay đổi state theo nội dung người dùng nhập vào form
     handleChange=(event) => {
         let target = event.target;
+        // Nếu là form input dạng ô chọn thì sẽ set hasAgreed = target.checked(true | false) thay vì target.value
         let value = target.type === 'checkbox' ?
         target.checked : target.value;
         let name = target.name;
@@ -25,6 +29,7 @@ class SignUp extends Component {
         });
     }
 
+    // Gửi request đăng ký user cho backend
     handleSubmit = (event) => {
         event.preventDefault();
         this.state.password === this.state.passwordcf ?
@@ -40,6 +45,7 @@ class SignUp extends Component {
             console.log('The form was submitted with the following data:');
             console.log(data.data);
             alert("Đăng ký thành công");
+            // Sau khi đăng ký thành công 1s thì tự động chuyển sang trang đăng nhập
             setTimeout(function(){ window.location.href='/signin'; }, 1000);          
           })
           .catch(err => console.log(err))
