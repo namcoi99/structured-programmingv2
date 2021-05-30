@@ -3,6 +3,8 @@ import '../Css/menu.css'
 import axios from '../axios';
 import NavBar from './NavBar';
 
+
+// Đây là trang menu chính của từng loại sản phẩm
 class Menu extends Component {
     constructor(props) {
         super(props)
@@ -11,19 +13,25 @@ class Menu extends Component {
             trendingproducts: [],
             products: [],
             total: 0,
+            // Loại sản phẩm hiện tại
             currentCategory: this.props.category,
             currentPageNumber: 1,
             maxPageNumber: 1,
+            // Không dùng attribute này
             menu: true,
+            // Sử dụng để xác định đang ở loại filter nào. VD: sắp xếp theo giá, sắp xếp theo số lượng bán, mặc định là sắp xếp theo product id
             activeField: [true, false, false],
+            // Chiều tăng dần hoặc giảm dần(Giá)
             sortDirection: 1,
+            // Loại sắp xếp hiện tại là theo product id
             sortField: 'ProductID',
-
+            // Set text khi chọn vào mục sắp xếp giá(tăng dần hoặc giảm dần)
             priceSort: 'Sắp xếp giá'
         }
         this.handleSort('ProductID', 1, 1)
     }
 
+    // Chọn trang trong pagination
     handlePageChange = (pageNumber) => {
         this.handleSort(this.state.sortField, this.state.sortDirection, pageNumber);
         this.setState({
@@ -31,6 +39,7 @@ class Menu extends Component {
         });
     }
 
+    // Chuyển sang trang trước trong pagination
     handlePrevClick = () => {
         if (this.state.currentPageNumber > 1) {
             this.handleSort(this.state.sortField, this.state.sortDirection, this.state.currentPageNumber - 1);
@@ -40,6 +49,7 @@ class Menu extends Component {
         }
     }
 
+    // Chuyển sang trang sau trong pagination
     handleNextClick = () => {
         if (this.state.currentPageNumber < this.state.maxPageNumber) {
             this.handleSort(this.state.sortField, this.state.sortDirection, this.state.currentPageNumber + 1);
@@ -55,18 +65,21 @@ class Menu extends Component {
         })
     }
 
+    // Hàm xử lý việc sắp xếp sản phẩm
     handleSort = (field, direction, pageNumber) => {
         console.log(field, direction);
         let active = [];
         if (field === 'ProductID') { active = [1, 0, 0]; }
         if (field === 'Sold') { active = [0, 1, 0]; }
         if (field === 'Price') { active = [0, 0, 1]; }
+        // Set lại giá trị của state về các thuộc tính như trang hiện tại trở về 1, hiện đang xét filter ở field nào(giá, id, số lượng bán), chiều sắp xếp
         this.setState({
             currentPageNumber: 1,
             activeField: active,
             sortDirection: direction,
             sortField: field
         });
+        // Lấy dữ liệu sắp xếp theo giá từ backend nếu tồn tại giá trị from và to
         if (this.state.from && this.state.to) {
             axios.get(`filter/price?from=${this.state.from}&to=${this.state.to}&pageNumber=${pageNumber}&pageSize=4&sortField=${field}&category=${this.state.currentCategory}&sortDirection=${direction}`)
                 .then(data => {
@@ -78,6 +91,7 @@ class Menu extends Component {
                 })
                 .catch(err => console.log(err));
         } else {
+            // Lấy dữ liệu từ backend sau khi filter
             axios.get(`filter/category?pageNumber=${pageNumber}&pageSize=4&sortField=${field}&category=${this.state.currentCategory}&sortDirection=${direction}`)
                 .then(data => {
                     console.log(data.data)
@@ -90,7 +104,7 @@ class Menu extends Component {
                 .catch(err => console.log(err));
         }
     }
-
+    // Hàm xử lý việc filter sản phẩm
     handleFilter = (pageNumber, event) => {
         event.preventDefault();
         this.setState({

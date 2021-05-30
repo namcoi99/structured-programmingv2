@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../Css/product.css';
 import NavBar from './NavBar';
 import axios from '../axios';
-
+// TODO
 // Đây là component hiển thị trang chi tiết sản phẩm
 class Product extends Component {
     state = {
