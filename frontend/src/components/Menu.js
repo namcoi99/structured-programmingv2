@@ -104,7 +104,7 @@ class Menu extends Component {
                 .catch(err => console.log(err));
         }
     }
-    // Hàm xử lý việc filter sản phẩm
+    // Hàm xử lý việc filter sản phẩm tương tự handleSort
     handleFilter = (pageNumber, event) => {
         event.preventDefault();
         this.setState({
@@ -131,6 +131,7 @@ class Menu extends Component {
         for (let i = 1; i <= this.state.maxPageNumber; i++) {
             paginations.push(i);
         }
+        // component lưu giữ các sản phẩm
         const Products = this.state.products.map(item => (
             <div key={item.ProductID} className='trending-item-root'>
                 <div className="trending-item" data-aos="fade-right" data-aos-delay="500">

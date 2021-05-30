@@ -6,6 +6,7 @@ import burger from '../hamburger-nav.png';
 import milktea from '../milktea-nav.jpg';
 import axios from '../axios';
 
+// Đây là component hiển thị navigation bar(thanh điều hướng)
 class NavBar extends Component {
 
     state = {
@@ -15,6 +16,7 @@ class NavBar extends Component {
         orderSearch: ''
     }
 
+    // Không sử dụng trong prj
     handleChange = (event) => {
         this.setState({
             [event.target.name]: event.target.value
@@ -36,6 +38,7 @@ class NavBar extends Component {
         }
     }
 
+    // Không sử dụng trong prj
     handleSubmit = (e) => {
         e.preventDefault();
         if (this.state.orderSearch !== '') {
@@ -43,16 +46,21 @@ class NavBar extends Component {
         }
     }
 
+    // Đăng xuất người dùng
     SignOut = () => {
+        // Xóa tên và giỏ hàng khỏi localStorage
         localStorage.removeItem("username")
         localStorage.removeItem('cart')
         this.props.username = null
+        // reload lại trang
         window.location.href = '/'
     }
 
+    // Gửi request lấy dữ liệu của những sản phẩm bán chạy nhất tới backend
     componentDidMount() {
         axios.get(`/product/best-seller`)
             .then(data => {
+                // lưu dữ liệu lấy được vào state
                 this.setState({
                     products: data.data.data.recordset
                 })
@@ -60,6 +68,7 @@ class NavBar extends Component {
             .catch(err => console.log(err));
     }
 
+    // Không sử dụng trong prj
     viewCart = (event) => {
         event.preventDefault();
         const username = localStorage.getItem('username');
@@ -71,6 +80,7 @@ class NavBar extends Component {
         }
     }
 
+    // Không sử dụng trong prj
     viewOrder = (event) => {
         event.preventDefault();
         const username = localStorage.getItem('username');
@@ -83,6 +93,7 @@ class NavBar extends Component {
     }
 
     render() {
+        // Không sử dụng trong prj
         const prefix = this.state.products ? this.state.products.map(item => (
             <a className='search-1' key={item.ProductID} href={`/product/${item.ProductID}`}>
                 <div className='result-item' key={item.ProductID}>
@@ -90,6 +101,8 @@ class NavBar extends Component {
                 </div>
             </a>
         )) : ''
+
+        // Không sử dụng trong prj
         const displayItems = this.props.products ? this.props.products.map(item => (
             <div className="list-item-left">
                 <a key={item.ProductID} href={`/product/${item.ProductID}`}>
@@ -105,12 +118,15 @@ class NavBar extends Component {
             </div>
         )) : ''
 
+        // Lấy tên người dùng từ local storage
         var username = localStorage.getItem('username')
         let SignIn
         let SignUp
         let LogOut
         let cartButton = null
+        // Nếu chưa đăng nhập thì hiển thị nút đăng ký và đăng nhập, ngược lại thì hiển thị "Chào mừng" + tên người dùng
         if (username == null)
+            // Hiển thị nút đăng nhập nếu người dùng chưa login
             SignIn = (
                 <a href="/login">
                     <div className="sign-in">
@@ -122,6 +138,7 @@ class NavBar extends Component {
                 </a>
             )
         else {
+            // Hiển thị "Chào mừng" + tên người dùng nếu người dùng đã login
             SignIn = (
                 <div className="sign-in">
                     <div className="sign-up-icon">
@@ -134,6 +151,7 @@ class NavBar extends Component {
                 <a className="nav-link" href="/cart">Giỏ hàng</a>
             )
         }
+        // Hiển thị nút đăng ký nếu người dùng chưa đăng nhập
         if (username == null)
             SignUp = (
                 <a href="/register">
@@ -145,6 +163,7 @@ class NavBar extends Component {
                     </div>
                 </a>
             )
+        // Hiển thị nút logout nếu người dùng đã đăng nhập
         if (username != null)
             LogOut = (
                 <a href='/' onClick={this.SignOut}>
@@ -156,7 +175,8 @@ class NavBar extends Component {
                     </div>
                 </a>
             )
-        return (   
+        return (
+            // Thanh điều hướng
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark navi-bar custom-nav-bar">
                 <a className="navbar-brand" href="#"></a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
