@@ -31,22 +31,27 @@ class App extends Component {
     Total: 0
   }
 
+  // Lấy ra giỏ hàng của người dùng
   componentDidMount() {
     axios.get(`/cart/${localStorage.getItem('username')}`)
       .then(data => {
+        // Lưu các sản phẩm trong giỏ vào state
         this.setState({
           products: data.data.data
         })
         this.state.products.map(item => {
+          // Tính tổng số lượng tiền các sản phẩm trong giỏ hàng và lưu vào state
           this.setState({
             Total: this.state.Total + item.Price * item.Quantity,
           })
+          // Tính tổng số lượng sản phẩm mà người dùng có trong giỏ hàng
           this.setState({ count: this.state.count + item.Quantity })
         })
       })
       .catch(err => console.log(err))
   }
 
+  // Gửi request login cho backend
   _onLogin = (username, password) => {
     axios.post('/customer/login', {
       username: username,
@@ -54,6 +59,7 @@ class App extends Component {
     })
       .then(response => {
         if (response.data.success !== false) {
+          // Lưu lại tên và id người dùng nếu login thành công
           this.setState({
             username: response.data.username,
             id: response.data.id
@@ -63,6 +69,7 @@ class App extends Component {
           console.log(response.data.username)
           window.location.href = '/';
         }
+        // Hiển thị lỗi nếu login thất bại
         else {
           alert("Wrong username or password");
         }
@@ -76,11 +83,14 @@ class App extends Component {
     }, 2000)
   }
 
+  // Gửi request thêm mới sản phẩm vào giỏ hàng cho backend
   _addtoCart = (item, quantity, event) => {
     event.preventDefault();
+    // Lấy ra tên người dùng hiện tại
     const username = localStorage.getItem('username');
     if (username) {
       this.setState({ status: STATUS.LOADING })
+      // Gửi request cho backend
       axios.post('/cart/add', {
         username: username,
         productID: item.ProductID,
@@ -101,6 +111,7 @@ class App extends Component {
             status: STATUS.ERROR
           }, this.hideAlertDialog)
         });
+      // Cập nhật lại đơn hàng của người dùng
       axios.get(`/cart/${localStorage.getItem('username')}`)
         .then(data => {
           this.setState({
@@ -108,6 +119,7 @@ class App extends Component {
           })
         })
         .catch(err => console.log(err));
+      // Cập nhật lại tổng số lượng và tổng chi phí của cả giỏ hàng
       this.setState({
         count: this.state.count + quantity,
         Total: this.state.Total + item.Price * quantity
@@ -118,6 +130,7 @@ class App extends Component {
     }
   }
 
+  // Hàm này sử dụng để cập nhật số lượng và chi phí của giỏ hàng khi người dùng chọn giảm số lượng sản phẩm
   Decrease = (item, event) => {
     event.preventDefault();
     if (item.Quantity > 1) {
@@ -126,6 +139,7 @@ class App extends Component {
         count: this.state.count - 1,
         Total: this.state.Total - item.Price
       });
+      // Gửi request update lại giỏ hàng trong csdl
       axios.post('/cart/update', {
         quantity: item.Quantity,
         username: localStorage.getItem('username'),
@@ -138,6 +152,7 @@ class App extends Component {
     }
   }
 
+  // Tương tự Decrease
   Increase = (item, event) => {
     event.preventDefault();
     item.Quantity++;
@@ -160,6 +175,7 @@ class App extends Component {
   render() {
     return (
       <div>
+        {/* Định tuyến url cho toàn bộ trang web. VD: khi truy cập vào đường dẫn / sẽ trả về trang Home */}
         <BrowserRouter>
           <React.Suspense fallback={loading()}>
             <Switch>
