@@ -34,12 +34,15 @@ sql.connect(config, (err, pool) => {
         const app = express();
 
         app.use(express.static('public'));
+        // cho phép client gọi 1 api từ 1 nguồn khác có domain khác với trang hiện tại
         app.use(cors({
             origin: 'http://localhost:3000',
             credentials: true
         }));
         app.use(bodyParser.json());
         app.use(morgan('tiny'))
+
+        // Lưu dữ liệu session
         app.use(session({
             secret: 'keyboard cat',
             resave: true,

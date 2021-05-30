@@ -1,10 +1,17 @@
 const express = require('express');
+// middleware cho nodejs xử lý dữ liệu dạng multipart/form-data 
+// khi người dùng upload file
 const multer = require('multer');
 //hỗ trợ bắt file, thư viện nhận file từ fe
 const path = require('path');
 
+// Router này dùng để upload ảnh khi tạo/update sản phẩm
 const uploadRouter = express.Router();
 
+/**
+ * destination: xác định vị trí lưu trữ cho các tệp
+ * filename: mẫu tên file = Date_filename
+ */
 const storage = multer.diskStorage({ //multers disk storage settings
     destination: './public/image/products',
     filename: function (req, file, cb) {
@@ -12,6 +19,11 @@ const storage = multer.diskStorage({ //multers disk storage settings
     }
 });
 
+/**
+ * multer settings
+ * fileFilter: chỉ cho phép file png/jpg/gif/jpeg
+ * limit: giới hạn kích thước file
+ */
 const upload = multer({ //multer settings
     storage: storage,
     fileFilter: function (req, file, cb) {
@@ -26,7 +38,11 @@ const upload = multer({ //multer settings
     },
 });
 
-// upload.field for upload more fields
+/**
+ * route này không được gọi trong front end
+ * hàm này trước đây chưa hoàn thiện
+ */
+// upload.field for upload more fields -> Không phải
 uploadRouter.post("/", upload.single('image'), async (req, res, err) => {
     console.log(req.file);
     // handle err ??? how 

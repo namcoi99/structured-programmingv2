@@ -76,7 +76,7 @@ CREATE TABLE [Cart]
 )
 
 -- Trigger
-/* cập nhật hàng trong kho sau khi đặt hàng hoặc cập nhật */
+/* Tự động cập nhật số lượng đã bán của sản phẩm sau khi đặt hàng*/
 DROP TRIGGER trg_OrderList
 CREATE TRIGGER trg_OrderList ON [OrderList] AFTER INSERT AS 
 BEGIN
@@ -90,7 +90,7 @@ BEGIN
 END
 GO
 
-/* xóa giỏ hàng sau khi đặt hàng (order/thanh toán) */
+/* Tự động xóa giỏ hàng sau khi đặt hàng (order/thanh toán) */
 DROP TRIGGER trg_ClearCart
 CREATE TRIGGER trg_ClearCart ON [Order] AFTER INSERT AS 
 BEGIN
@@ -112,7 +112,7 @@ BEGIN
 end
 GO*/
 
-/* cập nhật hàng trong kho sau khi hủy đặt hàng */
+/* Tự động cập nhật số lượng đã bán của sản phẩm sau khi hủy đặt hàng */
 DROP TRIGGER trg_CancelOrder
 CREATE TRIGGER trg_CancelOrder ON [OrderList] FOR DELETE AS 
 BEGIN
