@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import '../Css/order-detail.css';
 import NavBar from './NavBar';
-// TODO
+
+// Đây là component hiển thị trang chi tiết đơn hàng sau khi đặt => Không sử dụng trong prj
 class OrderDetail extends Component {
 
     constructor(props) {

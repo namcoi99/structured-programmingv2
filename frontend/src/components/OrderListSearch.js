@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import '../Css/order-list.css';
 import Navbar from './NavBar';
 import axios from '../axios';
-// TODO
+
+// Đây là component hiển thị chi tiết đơn hàng sau khi search => Không sử dụng trong prj
 class OrderListSearch extends Component {
     constructor(props) {
         super(props)

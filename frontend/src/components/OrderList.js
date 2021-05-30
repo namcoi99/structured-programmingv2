@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import '../Css/order-list.css';
 import Navbar from './NavBar';
-// TODO
+
+// Đây là trang hiển thị tất cả đơn hàng của người dùng theo dạng danh sách => Không sử dụng trong prj
 class Order extends Component {
     constructor(props) {
         super(props)
