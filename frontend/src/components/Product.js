@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../Css/product.css';
 import NavBar from './NavBar';
 import axios from '../axios';
-// TODO
+
 // Đây là component hiển thị trang chi tiết sản phẩm
 class Product extends Component {
     state = {
@@ -10,8 +10,10 @@ class Product extends Component {
         quantity: 1
     }
 
+    // Lấy dữ liệu sản phẩm theo ID
     componentDidMount() {
         axios
+            // Gửi request lấy sản phẩm cho backend sử dụng ID có trên url(sau khi bấm vào sản phẩm sẽ redirect sang url chứa id sản phẩm)
             .get(`/product/${this.props.match.params.productID}`)
             .then(data => {
                 console.log(data.data)
@@ -23,11 +25,13 @@ class Product extends Component {
             .catch(err => console.log(err))
     }
 
+    // hàm sử dụng để tăng số lượng sản phẩm muốn mua khi click vào dấu +
     Increment = (event) => {
         event.preventDefault();
         this.setState({ quantity: this.state.quantity + 1 });
     }
 
+    // tương tự hàm Increment
     Decrease = (event) => {
         event.preventDefault();
         if (this.state.quantity > 1) {
@@ -52,6 +56,7 @@ class Product extends Component {
                     <div className="product-bottom">
                         <div className="product-bottom-left">
                             <div className="product-bottom-left-img">
+                                {/* link tới ảnh được lưu trong folder public bên backend */}
                                 <img src={`http://localhost:5000/image/products/${this.state.product.Image}.png`} alt="" />
                             </div>
                             <div className="product-bottom-left-share">
@@ -80,6 +85,7 @@ class Product extends Component {
                                 </div>
                             </div>
                             <div className="product-purchase">
+                                {/* Khi bấm vào nút Thêm vào giỏ hàng sẽ gọi đến hàm addtoCart để lưu lại sản phẩm vào giỏ hàng trong csdl */}
                                 <button onClick={(event) => { this.props.addtoCart(this.state.product, this.state.quantity, event) }} type="button" className="btn btn-primary add-to-cart" >
                                     <i className="fas fa-cart-plus"></i>
                                     Thêm vào giỏ hàng
