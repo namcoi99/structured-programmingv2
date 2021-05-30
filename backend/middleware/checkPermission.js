@@ -1,5 +1,5 @@
 /**
- * Hàm này không dùng
+ * Hàm này không có tác dùng gì 
  */
 module.exports = function isAdministrator(req, res, next) {
     console.log(req.session);
