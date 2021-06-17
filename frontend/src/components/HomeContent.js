@@ -1,50 +1,12 @@
 import React, { Component } from 'react';
+
+import carousel1 from '../Images/carousel-1.jpg';
+import carousel2 from '../Images/carousel-2.jpg';
+import carousel3 from '../Images/carousel-3.jpg';
+
 import '../Css/home.css';
 
-
-class Product extends Component {
-    render() {
-
-        const item = this.props.item
-        return (
-            <div key={item.ProductID} className='trending-item-root'>
-                <div className="trending-item" data-aos="fade-right" data-aos-delay="500">
-                    <div className="trending-item-img">
-                        <a href={`/product/${item.ProductID}`} target="__blank">
-                            <img src={`http://localhost:5000/image/products/${item.Image}.png`} alt={item.Name}
-                                style={{
-                                    backgroundPosition: 'center',
-                                    backgroundRepeat: 'no-repeate',
-                                    height: '300px',
-                                    width: '100%'
-                                }} />
-                        </a>
-                    </div>
-                    <div className="trending-item-text">
-                        <a href={`/product/${item.ProductID}`} target="__blank">
-                            <h2>{item.Name}</h2>
-                        </a>
-                    </div>
-                    <div className="trending-item-cost">
-                        <span>{item.Price}đ</span>
-                    </div>
-                    <div>Số lượng đã bán: {item.Sold}</div>
-                    <a href='/' onClick={(event) => { this.props.addtoCart(item, 1, event) }}>
-                        <div className="trending-item-expand">
-                            <div className="expand-cart">
-                                <i className="fas fa-cart-plus"></i>
-                                <p> Thêm vào giỏ hàng</p>
-                            </div>
-                        </div>
-                    </a>
-                    
-                </div>
-            </div>
-        )
-    }
-}
-
-// Đây là component hiển thị nội dung trong Trang Chủ
+// Đây là component hiển thị nội dung trang chủ
 class HomeContent extends Component {
     constructor(props) {
         super(props)
@@ -53,9 +15,7 @@ class HomeContent extends Component {
             trendingproducts: [],
             products: [],
             total: 0,
-            // phân loại các sản phẩm ở trang chủ
-            currentCategory: 'Pizza',
-            // 2 thuộc tính này xử dụng để phân trang
+            currentCategory: 'Shirt',
             currentPageNumber: 1,
             maxPageNumber: 1,
         }
@@ -72,7 +32,7 @@ class HomeContent extends Component {
                 trendingproducts: data.data
             });
         } catch (err) {
-            // window.alert(err.message);
+            window.alert(err.message);
         }
     }
 
@@ -89,7 +49,7 @@ class HomeContent extends Component {
                 maxPageNumber: Math.ceil(data.data.total / 4)
             });
         } catch (err) {
-            // window.alert(err.message);
+            window.alert(err.message);
         }
     }
 
@@ -129,11 +89,89 @@ class HomeContent extends Component {
         }
         // Biến hiển thị các sản phẩm trending
         const Trending = this.state.trendingproducts.map(item => (
-            <Product {...this.props} item={item} />
+            <div key={item.ProductID} className='trending-item-root'>
+                <div className="trending-item" data-aos="fade-right" data-aos-delay="500">
+                    <div className="trending-item-img">
+                        <a href={`/product/${item.ProductID}`} target="__blank">
+                            <img src={`http://localhost:5000/image/products/${item.Image}.jpg`} alt={item.Name}
+                                style={{
+                                    backgroundPosition: 'center',
+                                    backgroundRepeat: 'no-repeate',
+                                    height: '300px',
+                                    width: '100%'
+                                }} />
+                        </a>
+                    </div>
+                    <div className="trending-item-text">
+                        <a href={`/product/${item.ProductID}`} target="__blank">
+                            <h2>{item.Name}</h2>
+                        </a>
+                    </div>
+                    <div className="trending-item-cost">
+                        <span>{item.Price}đ</span>
+                    </div>
+                    <div>Số lượng đã bán: {item.Sold}</div>
+                    <a href='/' onClick={(event) => { this.props.addtoCart(item, 1, event) }}>
+                        <div className="trending-item-expand">
+                            <div className="expand-cart">
+                                <i className="fas fa-cart-plus"></i>
+                                <p> Thêm vào giỏ hàng</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
         ))
         // Biến hiển thị tất cả sản phẩm theo phân loại và phân trang
         const Products = this.state.products.map(item => (
-            <Product {...this.props} item={item} />
+            <div key={item.ProductID} className="card" style={{ width: "20rem" }}>
+                <a href={`/product/${item.ProductID}`} target="__blank"><img className="card-img-top" src={`http://localhost:5000/image/products/${item.Image}.jpg`} alt={item.Name} style={{
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeate',
+                    height: '300px',
+                    width: '100%'
+                }} /></a>
+                <div className="card-body">
+                    <h2 className="card-title" style={{ fontWeight: "bolder" }}>{item.Name.slice(0,10)}...</h2>
+                    <p className="card-text text-success"><span>{item.Price}đ</span></p>
+                    <p className="">Số lượng đã bán: {item.Sold}</p>
+                    <button type="button" className="btn btn-danger" onClick={(event) => { this.props.addtoCart(item, 1, event) }}>
+                        <i className="fas fa-cart-plus mr-2"></i>  Thêm vào giỏ hàng
+                    </button>
+                </div>
+
+                {/* <div key={item.ProductID} className='trending-item-root'>
+                    <div className="trending-item" data-aos="fade-right" data-aos-delay="500">
+                        <div className="trending-item-img">
+                            <a href={`/product/${item.ProductID}`} target="__blank">
+                                <img src={`http://localhost:5000/image/products/${item.Image}.jpg`} alt={item.Name} style={{
+                                    backgroundPosition: 'center',
+                                    backgroundRepeat: 'no-repeate',
+                                    height: '300px',
+                                    width: '100%'
+                                }} />
+                            </a>
+                        </div>
+                        <div className="trending-item-text">
+                            <a href={`/product/${item.ProductID}`} target="__blank">
+                                <h2>{item.Name}</h2>
+                            </a>
+                        </div>
+                        <div className="trending-item-cost">
+                            <span>{item.Price}đ</span>
+                        </div>
+                        <div>Số lượng đã bán: {item.Sold}</div>
+                        <a href='/' onClick={(event) => { this.props.addtoCart(item, 1, event) }}>
+                            <div className="trending-item-expand">
+                                <div className="expand-cart">
+                                    <i className="fas fa-cart-plus"></i>
+                                    <p>Thêm vào giỏ hàng</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div> */}
+            </div>
         ))
 
         return (
@@ -141,19 +179,18 @@ class HomeContent extends Component {
             <div id="home" >
                 {/* <div className="home-top">
                     <a href="/">Trang chủ</a>
-                   
                 </div> */}
                 {/* Carousel */}
                 <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
                     <div className="carousel-inner">
                         <div className="carousel-item active">
-                            <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(35).jpg" className="d-block w-100" alt="..." />
+                            <img src={carousel1} className="d-block w-100" alt="..." />
                         </div>
                         <div className="carousel-item">
-                            <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(31).jpg" className="d-block w-100" alt="..." />
+                            <img src={carousel2} className="d-block w-100" alt="..." />
                         </div>
                         <div className="carousel-item">
-                            <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(130).jpg" className="d-block w-100" alt="..." />
+                            <img src={carousel3} className="d-block w-100" alt="..." />
                         </div>
                     </div>
                     <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -190,34 +227,34 @@ class HomeContent extends Component {
                             onClick={() => {
                                 // Thay đổi phân loại hiện tại trong state khi click vào phân loại tương ứng
                                 this.setState({
-                                    currentCategory: 'Pizza',
+                                    currentCategory: 'Shirt',
                                     currentPageNumber: 1,
                                 });
                                 this.getData(1);
                             }} >
-                            <i class="fas fa-tshirt"></i>
+                            <i className="fas fa-tshirt"></i>
                             <h2>Áo</h2>
                         </div>
                         <div className="pagination-item pag-2"
                             onClick={() => {
                                 this.setState({
-                                    currentCategory: 'Hamburger',
+                                    currentCategory: 'Pants',
                                     currentPageNumber: 1,
                                 });
                                 this.getData(1);
                             }} >
-                            <i class="fas fa-socks"></i>
+                            <i className="fas fa-socks"></i>
                             <h2>Quần</h2>
                         </div>
                         <div className="pagination-item pag-3"
                             onClick={() => {
                                 this.setState({
-                                    currentCategory: 'Milktea',
+                                    currentCategory: 'Bag',
                                     currentPageNumber: 1
                                 });
                                 this.getData(1);
                             }} >
-                            <i class="fas fa-shopping-bag"></i>
+                            <i className="fas fa-shopping-bag"></i>
                             <h2>Phụ kiện</h2>
                         </div>
                     </div>

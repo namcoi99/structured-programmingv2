@@ -13,7 +13,6 @@ class Cart extends Component {
         total: 0
     }
 
-    // TODO: Tuấn
     async UNSAFE_componentWillMount() {
         const username = localStorage.getItem('username');
         try {
@@ -66,7 +65,7 @@ class Cart extends Component {
         console.log(orderList);
         // gửi request tạo đơn hàng cho backend xử lý với method POST
         try {
-            const data = await fetch("http://localhost:5000/order/new-order/", {
+            const data = await fetch("http://localhost:5000/order", {
                 method: "POST",
                 // Dạng dữ liệu gửi cho backend là json
                 headers: {
@@ -100,7 +99,7 @@ class Cart extends Component {
     _Delete = (item, event) => {
         event.preventDefault();
         console.log("xoa no:", item);
-        axios.delete('/cart/delete', {
+        axios.delete('/cart', {
             data: {
                 username: localStorage.getItem('username'),
                 productID: item.ProductID
@@ -127,7 +126,7 @@ class Cart extends Component {
     //         this.setState({Total:0});
     //         this.props.state.Total-=item.Price;
     //     }
-    //     axios.post('/cart/update',{
+    //     axios.put('/cart',{
     //         quantity:item.Quantity-1,
     //         username:localStorage.getItem('username'),
     //         productID:item.productID
@@ -153,7 +152,7 @@ class Cart extends Component {
                     <input type="checkbox" />
                 </div> */}
                 <div className="cart-img">
-                    <img src={`http://localhost:5000/image/products/${item.Image}.png`} alt={item.ProductID} />
+                    <img src={`http://localhost:5000/image/products/${item.Image}.jpg`} alt={item.ProductID} />
                 </div>
                 <div className="cart-description">
                     <span>{item.Name}</span>
@@ -255,7 +254,7 @@ class Cart extends Component {
                                 <div className="summary-confirm">
                                     <button className="btn btn-danger btn-block" onClick={(event) => { this.handlePurchase(event); }}>
                                         Thanh toán
-                                    </button>
+                                        </button>
                                 </div>
                             </div>
                         </div>

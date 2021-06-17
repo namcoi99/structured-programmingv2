@@ -44,7 +44,7 @@ class Product extends Component {
             <div>
                 <NavBar products={this.props.state.products} handleSearch={this.props.handleSearch} Total={this.props.state.Total} count={this.props.state.count} />
                 <div className="product">
-                    <div className="product-top">
+                    {/* <div className="product-top">
                         <a href="/">Trang chủ</a>
                         <i className="fas fa-chevron-right"></i>
                         <a href="/menu">Menu</a>
@@ -52,12 +52,12 @@ class Product extends Component {
                         <a href={`/menu${this.state.product.Category}`}>{this.state.product.Category}</a>
                         <i className="fas fa-chevron-right"></i>
                         <a href={`/product/${this.state.product.ProductID}`}>{this.state.product.Name}</a>
-                    </div>
+                    </div> */}
                     <div className="product-bottom">
                         <div className="product-bottom-left">
                             <div className="product-bottom-left-img">
                                 {/* link tới ảnh được lưu trong folder public bên backend */}
-                                <img src={`http://localhost:5000/image/products/${this.state.product.Image}.png`} alt="" />
+                                <img src={`http://localhost:5000/image/products/${this.state.product.Image}.jpg`} alt="" />
                             </div>
                             <div className="product-bottom-left-share">
                             <div class="fb-share-button" data-href="https://www.foody.vn/ha-noi/citea-fun-tea-coffee-ta-quang-buu" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.foody.vn%2Fha-noi%2Fcitea-fun-tea-coffee-ta-quang-buu&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Chia sẻ</a></div>

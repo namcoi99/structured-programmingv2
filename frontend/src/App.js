@@ -9,23 +9,17 @@ import Menu from './components/Menu';
 import Cart from './components/Cart';
 import OrderList from './components/OrderList';
 import OrderDetail from './components/OrderDetail';
-import ProductManagement from "./components/Admin/ProductManagement"
-import Footer from '../src/components/Footer';
-import OrderListSearch from './components/OrderListSearch.js';
 import './App.scss';
+import OrderListSearch from './components/OrderListSearch.js';
+import AdminDashboard from './containers/AdminDashboard.js';
+import AdminNavbar from './components/AdminNavbar.js';
+import Footer from './components/Footer.js';
 
 const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>;
 
-const STATUS = {
-  IDLE: 0,
-  LOADING: 1,
-  SUCCESS: 2,
-  ERROR: 3,
-}
 
 class App extends Component {
   state = {
-    status: STATUS.IDLE,
     products: [],
     count: 0,
     Total: 0
@@ -64,10 +58,14 @@ class App extends Component {
             username: response.data.username,
             id: response.data.id
           })
-          console.log(this.state)
+          // console.log(this.state)
           localStorage.setItem('username', response.data.username)
-          console.log(response.data.username)
-          window.location.href = '/';
+          // console.log(response.data.username)
+          if(response.data.username == 'admin') {
+            window.location.href = '/admin';
+          } else {
+            window.location.href = '/';
+          }
         }
         // Hiển thị lỗi nếu login thất bại
         else {
@@ -77,41 +75,23 @@ class App extends Component {
       .catch(err => console.log(err))
   }
 
-  hideAlertDialog = () => {
-    setTimeout(() => {
-      this.setState({ status: STATUS.IDLE })
-    }, 2000)
-  }
-
   // Gửi request thêm mới sản phẩm vào giỏ hàng cho backend
   _addtoCart = (item, quantity, event) => {
     event.preventDefault();
-    // Lấy ra tên người dùng hiện tại
     const username = localStorage.getItem('username');
     if (username) {
-      this.setState({ status: STATUS.LOADING })
-      // Gửi request cho backend
-      axios.post('/cart/add', {
+      axios.post('/cart', {
         username: username,
         productID: item.ProductID,
         quantity: quantity,
         name: item.Name,
         image: item.Image
       })
+        // Cập nhật lại đơn hàng cho người dùng
         .then(response => {
-          this.setState({
-            status: response.data.success
-              ? STATUS.SUCCESS : STATUS.ERROR
-          }, this.hideAlertDialog)
           console.log(response.data.success)
         })
-        .catch(err => {
-          console.log(err)
-          this.setState({
-            status: STATUS.ERROR
-          }, this.hideAlertDialog)
-        });
-      // Cập nhật lại đơn hàng của người dùng
+        .catch(err => console.log(err));
       axios.get(`/cart/${localStorage.getItem('username')}`)
         .then(data => {
           this.setState({
@@ -182,13 +162,29 @@ class App extends Component {
               <Route exact path="/" render={(props) => {
                 return <Home {...props} addtoCart={this._addtoCart} state={this.state} />
               }} />
-              <Route exact path="/login" render={(props) => {
+              <Route exact path="/admin" render={(props) => {
+                return (
+                  <div>
+                    <AdminNavbar />
+                    <AdminDashboard />
+                  </div>
+                )
+              }} />
+              {/* <Route exact path="/admin/user" render={(props) => {
+                return (
+                  <div>
+                    <AdminNavbar />
+                    <AdminDashboard />
+                  </div>
+                )
+              }} /> */}
+              <Route exact path="/signin" render={(props) => {
                 return <SignIn {...props} state={this.state} _onLogin={this._onLogin} />
               }} />
               <Route exact path="/product/:productID" render={(props) => {
                 return <Product {...props} addtoCart={this._addtoCart} state={this.state} />
               }} />
-              <Route exact path="/register" render={(props) => {
+              <Route exact path="/signup" render={(props) => {
                 return <SignUp {...props} state={this.state} />
               }} />
               <Route exact path="/cart" render={(props) => {
@@ -201,30 +197,20 @@ class App extends Component {
                 return <OrderDetail {...props} state={this.state} />
               }} />
               <Route exact path="/menupizza" render={(props) => {
-                return <Menu {...props} addtoCart={this._addtoCart} state={this.state} category={"Áo"} />
+                return <Menu {...props} addtoCart={this._addtoCart} state={this.state} category={"Shirt"} />
               }} />
               <Route exact path="/menuburger" render={(props) => {
-                return <Menu {...props} addtoCart={this._addtoCart} state={this.state} category={"Quần"} />
+                return <Menu {...props} addtoCart={this._addtoCart} state={this.state} category={"Pants"} />
               }} />
               <Route exact path="/menumilktea" render={(props) => {
-                return <Menu {...props} addtoCart={this._addtoCart} state={this.state} category={"Phụ kiện"} />
+                return <Menu {...props} addtoCart={this._addtoCart} state={this.state} category={"Bag"} />
               }} />
               <Route exact path="/order/list/:orderID" render={(props) => {
                 return <OrderListSearch {...props} state={this.state} />
               }} />
-              <Route exact path="/admin" render={(props) => {
-                return <ProductManagement
-                 {...props} state={this.state} />
-              }} />
             </Switch>
           </React.Suspense>
         </BrowserRouter>
-        {
-          this.state.status === STATUS.SUCCESS &&
-          <div className="custom-alert-dialog alert alert-success" role="alert">
-            Thêm hàng thành công. <a href="/cart" className="alert-link">Xem giỏ hàng</a>.
-        </div>
-        }
         <Footer />
       </div>
 

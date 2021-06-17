@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../Css/order-list.css';
 import Navbar from './NavBar';
 
-// Đây là trang hiển thị tất cả đơn hàng của người dùng theo dạng danh sách => Không sử dụng trong prj
+// Đây là trang hiển thị tất cả đơn hàng của người dùng theo dạng danh sách
 class Order extends Component {
     constructor(props) {
         super(props)
@@ -16,7 +16,7 @@ class Order extends Component {
     async UNSAFE_componentWillMount() {
         const username = localStorage.getItem('username');
         try {
-            const data = await fetch(`http://localhost:5000/order/list/${username}`,
+            const data = await fetch(`http://localhost:5000/order?username=${username}`,
                 {
                     method: 'GET',
                     headers: {
@@ -51,11 +51,11 @@ class Order extends Component {
             <div>
                 <Navbar products={this.props.state.products} handleSearch={this.props.handleSearch} Total={this.props.state.Total} count={this.props.state.count} />
                 <div className="orderlist">
-                    <div className="orderlist-top">
-                        <a href="/">Trang chủ</a>
+                    {/* <div className="orderlist-top">
+                        <a href="/home">Trang chủ</a>
                         <i className="fas fa-chevron-right"></i>
                         <a href="/order-list">Đơn hàng</a>
-                    </div>
+                    </div> */}
                     <div className="orderlist-bottom">
                         <div className="order-list-header">
                             Đơn hàng đã đặt

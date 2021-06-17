@@ -1,16 +1,4 @@
 /* header */
-.navi-bar {
-    padding: 0 !important;
-}
-.home-page {
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.home-page:hover {
-    background-color: #f1e209;
-}
 .header-container{
     position:relative;
     height:120px
@@ -545,9 +533,9 @@ span a{
 .search-container-1{
     position: absolute;
     background-color: transparent;
-    width: 45%;
-    top: 90%;
-    left: 3.5%;
+    width: 177.4px;
+    top: 30.88px;
+    left: 0;
     z-index: 100;
 }
 .search-container-2{
@@ -577,7 +565,7 @@ span a{
     text-decoration: none;
 }
 .result-item:hover{
-    background-color: tomato;
+    background-color: gray;
     color: white;
     transform: translateX(60deg);
     transition-duration: 0.7s;

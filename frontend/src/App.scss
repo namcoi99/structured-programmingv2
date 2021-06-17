@@ -9,16 +9,3 @@
 @import '~simple-line-icons/css/simple-line-icons.css';
 // Import Main styles for this application
 @import './scss/style.scss';
-
-.custom-alert-dialog {
-    position: fixed;
-    top: 45px;
-    right: 10px;
-    padding: 10px 20px;
-}
-
-.custom-nav-bar {
-    position: sticky !important;
-    top: 0;
-    z-index: 9998;
-}

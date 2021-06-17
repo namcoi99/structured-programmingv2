@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../Css/order-detail.css';
 import NavBar from './NavBar';
 
-// Đây là component hiển thị trang chi tiết đơn hàng sau khi đặt => Không sử dụng trong prj
+// Đây là component hiển thị trang chi tiết đơn hàng sau khi đặt
 class OrderDetail extends Component {
 
     constructor(props) {
@@ -57,7 +57,7 @@ class OrderDetail extends Component {
         const orderList = this.state.orderList.map(item => (
             <div className='order-item' key={item.ProductID}>
                 <div className="order-img">
-                    <img src={`http://localhost:5000/image/products/${item.Image}.png`} alt={item.ProductID} />
+                    <img src={`http://localhost:5000/image/products/${item.Image}.jpg`} alt={item.ProductID} />
                 </div>
                 <div className="order-description">
                     <span>{item.Name}</span>
@@ -77,13 +77,13 @@ class OrderDetail extends Component {
             <div>
                 <NavBar products={this.props.state.products} handleSearch={this.props.handleSearch} Total={this.props.state.Total} count={this.props.state.count} />
                 <div className="orderdetail">
-                    <div className="orderdetail-top">
-                        <a href="/">Trang chủ</a>
+                    {/* <div className="orderdetail-top">
+                        <a href="/home">Trang chủ</a>
                         <i className="fas fa-chevron-right"></i>
                         <a href="/order-list">Đơn hàng</a>
                         <i className="fas fa-chevron-right"></i>
                         <a href="/order-detail">{this.state.orderID}</a>
-                    </div>
+                    </div> */}
                     <div className="orderdetail-bottom">
                         <div className="orderdetail-bottom-left">
                             <div className="orderdetail-bottom-left-top">
