@@ -1,7 +1,8 @@
 const express = require('express');
 const sql = require('mssql');
 const bcryptjs = require('bcryptjs');
-const isLoggedIn = require('../middleware/checkLogIn');
+const { secretCode } = require('../config');
+// const isLoggedIn = require('../middleware/checkLogIn');
 
 const customerRouter = express.Router();
 
@@ -10,10 +11,16 @@ const customerRouter = express.Router();
  * trả về true/báo lỗi
  */
 customerRouter.post('/register', async (req, res) => {
-    // validate email, password, fullname
-    // ... may be not need
     console.log(req.body);
     try {
+        // validate secret code
+        if (req.body.code != "" && !secretCode.includes(req.body.code)) {
+            res.status(500).json({
+                success: false,
+                message: "Secret Code is invalid!"
+            });
+        }
+        
         // Kiểm tra xem đã tồn tại username hay chưa
         const checkQuery = `
             SELECT * FROM Customer
@@ -22,7 +29,7 @@ customerRouter.post('/register', async (req, res) => {
         // console.log(checkQuery);
         const checkResult = await new sql.Request().query(checkQuery);
         // console.log(checkResult);
-        
+
         // Nếu tồn tại, báo lỗi
         if (checkResult.rowsAffected[0]) {
             res.status(400).json({
@@ -42,7 +49,7 @@ customerRouter.post('/register', async (req, res) => {
                     N'${req.body.name}',
                     N'${req.body.address}',
                     '${req.body.phone}',
-                    '0001'
+                    ${req.body.code == "" ? '0001': '1111'}
                 )
             `;
             console.log(regQuery);

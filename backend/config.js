@@ -1,0 +1,1 @@
+exports.secretCode = ["13579", "24680"];
