@@ -46,22 +46,25 @@ class App extends Component {
   }
 
   // Gửi request login cho backend
-  _onLogin = (username, password) => {
+  _onLogin = (username, password, code) => {
     axios.post('/customer/login', {
       username: username,
-      password: password
+      password: password,
+      code: code
     })
       .then(response => {
         if (response.data.success !== false) {
           // Lưu lại tên và id người dùng nếu login thành công
           this.setState({
             username: response.data.username,
-            id: response.data.id
+            id: response.data.id,
+            isAdmin: response.data.permission == "1111"
           })
           // console.log(this.state)
           localStorage.setItem('username', response.data.username)
+          localStorage.setItem('admin', this.state.isAdmin)
           // console.log(response.data.username)
-          if(response.data.username == 'admin') {
+          if (this.state.isAdmin) {
             window.location.href = '/admin';
           } else {
             window.location.href = '/';

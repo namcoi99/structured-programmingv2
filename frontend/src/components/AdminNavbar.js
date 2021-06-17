@@ -10,6 +10,9 @@ class AdminNavbar extends Component {
         // productSearch: '',
     }
 
+    componentDidMount() {
+        this._checkAdmin();
+    }
     // handleChange = (event) => {
     //     this.setState({
     //         [event.target.name]: event.target.value
@@ -40,11 +43,19 @@ class AdminNavbar extends Component {
 
     SignOut = () => {
         localStorage.removeItem("username")
+        localStorage.removeItem("isAdmin")
         localStorage.removeItem('cart')
         this.props.username = null
         window.location.href = '/'
     }
 
+    _checkAdmin = function () {
+        if (!window.localStorage.getItem('isAdmin')) {
+            alert("You do not have permission to access");
+            window.location.href = "/"
+        }
+    };
+    
     // viewOrder = (event) => {
     //     event.preventDefault();
     //     const username = localStorage.getItem('username');
