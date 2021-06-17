@@ -178,4 +178,35 @@ productRouter.get('/:productID', async (req, res) => {
     }
 });
 
+/**
+ * Nhận request xóa sản phẩm trong CSDL
+ * trả về true/báo lỗi
+ */
+productRouter.delete('/:id', async(req, res) => {
+    try {
+        // Xóa sản phẩm  trong CSDL
+        const result = await new sql.Request().query(`
+            DELETE FROM Product
+            WHERE ProductID = '${req.params.id}'
+        `);
+
+        // Báo lỗi nếu không tồn tại sản phẩm trong CSDL
+        if (!result.rowsAffected[0]) {
+            res.json({
+                success: false,
+                message: "ProductID not exist"
+            });
+        } else {
+            res.status(201).json({
+                success: true,
+            });
+        }
+    } catch (error) {
+        // Trả về status500 và lỗi nếu có lỗi trong quá trình giao tiếp với database
+        res.status(500).json({
+            success: false,
+        });
+    }
+})
+
 module.exports = productRouter;
