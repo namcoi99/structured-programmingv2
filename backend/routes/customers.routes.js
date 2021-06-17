@@ -1,8 +1,7 @@
 const express = require('express');
 const sql = require('mssql');
 const bcryptjs = require('bcryptjs');
-// Không có check login trong backend
-// const isLoggedIn = require('../middleware/checkLogIn');
+const isLoggedIn = require('../middleware/checkLogIn');
 
 const customerRouter = express.Router();
 
@@ -11,6 +10,8 @@ const customerRouter = express.Router();
  * trả về true/báo lỗi
  */
 customerRouter.post('/register', async (req, res) => {
+    // validate email, password, fullname
+    // ... may be not need
     console.log(req.body);
     try {
         // Kiểm tra xem đã tồn tại username hay chưa
@@ -28,8 +29,6 @@ customerRouter.post('/register', async (req, res) => {
                 success: false,
                 message: "Username has been used"
             });
-
-        // Nếu không tồn tại
         } else {
             // hash password bằng bcryptjs 
             const hashPassword = bcryptjs.hashSync(req.body.password, 10);
@@ -97,6 +96,7 @@ customerRouter.post('/login', async (req, res) => {
                 message: "Login Success",
                 username: req.body.username,
                 permission: checkResult.recordset[0].Permission
+
             });
         }
     } catch (err) {
@@ -108,11 +108,7 @@ customerRouter.post('/login', async (req, res) => {
     }
 });
 
-/**
- * Nhận request logout
- */
-customerRouter.get('/logout', (req, res) => {
-    // Xóa thông tin lưu trong session
+customerRouter.post('/logout', (req, res) => {
     req.session.destroy();
     // Gửi trả thông báo
     res.send({ message: "Logout Success" });

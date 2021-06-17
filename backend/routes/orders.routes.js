@@ -3,20 +3,14 @@ const sql = require('mssql');
 
 const orderRouter = express.Router();
 
-/**
- * Nhận request tạo đơn hàng mới
- * trả về true/báo lỗi
- */
-orderRouter.post('/new-order', async (req, res) => {
+orderRouter.post('/', async (req, res) => {
     try {
         console.log(req.body);
         // Đặt orderID = s tính theo thời điểm hiện tại
         const orderID = new Date().getTime();
-        // Đặt ngày tạo đơn hàng
-        const createDate = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`;
+        const createDate = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`;
         console.log(createDate);
-
-        // Thêm mới thông tin đơn hàng vào bảng Order
+        // new orderinfo
         const newOrderQuery = `
             INSERT INTO [Order]
             VALUES (
@@ -29,7 +23,7 @@ orderRouter.post('/new-order', async (req, res) => {
         `;
         const newOrderResult = await new sql.Request().query(newOrderQuery);
 
-        // Thêm mới danh sách các sản phẩm trong giỏ hàng vào bảng OrderList
+        // new orderlist
         for (const product of req.body.orderList) {
             await new sql.Request().query(`
                 INSERT INTO OrderList
@@ -96,15 +90,12 @@ orderRouter.delete('/:orderID', async (req, res) => {
     }
 });
 
-/**
- * Nhận request lấy danh sách thông tin các đơn hàng của User
- */
-orderRouter.get('/list/:username', async (req, res) => {
+orderRouter.get('/', async (req, res) => {
     try {
         // Lấy dữ liệu từ CSDL
         const result = await new sql.Request().query(`
             SELECT * FROM [Order]
-            WHERE Username = '${req.params.username}'
+            WHERE Username = '${req.query.username}'
             ORDER BY CreateDate DESC 
         `);
         
