@@ -155,7 +155,7 @@ class Menu extends Component {
                         <span>{item.Price}đ</span>
                     </div>
                     <div>Số lượng đã bán: {item.Sold}</div>
-                    <a href='/menuBurger' onClick={(event) => { this.props.addtoCart(item, 1, event) }}>
+                    <a href='/Pants' onClick={(event) => { this.props.addtoCart(item, 1, event) }}>
                         <div className="trending-item-expand">
                             <div className="expand-cart">
                                 <i className="fas fa-cart-plus"></i>

@@ -113,15 +113,17 @@ class NavBar extends Component {
         let SignUp
         let LogOut
         // Nếu chưa đăng nhập thì hiển thị nút đăng ký và đăng nhập, ngược lại thì hiển thị "Chào mừng" + tên người dùng
-        if (username == null)
+        if (username == null) {
             // Hiển thị nút đăng nhập nếu người dùng chưa login
             SignIn = (
                 <a className="nav-link" href="/signin">Đăng nhập</a>
             )
+        } else {
             // Hiển thị "Chào mừng" + tên người dùng nếu người dùng đã login
             SignIn = (
                 <div className="nav-link text-white">Chào mừng, {username} </div>
             )
+        }
         // Hiển thị nút đăng ký nếu người dùng chưa đăng nhập
         if (username == null)
             SignUp = (
@@ -150,9 +152,9 @@ class NavBar extends Component {
                                 Sản phẩm
                             </a>
                             <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a className="dropdown-item" href='/menuPizza'>Áo</a>
-                                <a className="dropdown-item" href='/menuBurger'>Quần</a>
-                                <a className="dropdown-item" href='/menuMilktea'>Phụ kiện</a>
+                                <a className="dropdown-item" href='/Shirt'>Áo</a>
+                                <a className="dropdown-item" href='/Pants'>Quần</a>
+                                <a className="dropdown-item" href='/Bag'>Phụ kiện</a>
                             </div>
                         </li>
                         <li className="nav-item">

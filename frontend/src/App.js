@@ -196,13 +196,13 @@ class App extends Component {
               <Route exact path="/order-detail/:orderID" render={(props) => {
                 return <OrderDetail {...props} state={this.state} />
               }} />
-              <Route exact path="/menupizza" render={(props) => {
+              <Route exact path="/Shirt" render={(props) => {
                 return <Menu {...props} addtoCart={this._addtoCart} state={this.state} category={"Shirt"} />
               }} />
-              <Route exact path="/menuburger" render={(props) => {
+              <Route exact path="/Pants" render={(props) => {
                 return <Menu {...props} addtoCart={this._addtoCart} state={this.state} category={"Pants"} />
               }} />
-              <Route exact path="/menumilktea" render={(props) => {
+              <Route exact path="/Bag" render={(props) => {
                 return <Menu {...props} addtoCart={this._addtoCart} state={this.state} category={"Bag"} />
               }} />
               <Route exact path="/order/list/:orderID" render={(props) => {
