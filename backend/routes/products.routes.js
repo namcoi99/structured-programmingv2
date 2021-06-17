@@ -1,87 +1,82 @@
 const express = require('express');
 const sql = require('mssql');
-const  isAdministrator = require('../middleware/checkPermission');
+const isAdministrator = require('../middleware/checkPermission');
 
 const productRouter = express.Router();
 
-/**
- * Nhận request thêm sản phẩm mới vào CSDL
- * trả về true/báo lỗi
- * 
- * Note: middleware isAdminstrator không có tác dùng gì 
- */
-productRouter.post('/new-product', isAdministrator, async (req, res) => {
+// productRouter.post('/', isAdministrator, async (req, res) => {
+productRouter.post('/', async (req, res) => {
     try {
-        // Kiểm tra xem mã sản phẩm đã có tồn tại từ trước chưa
-        const checkQuery = `
-            SELECT * FROM Product
-            WHERE ProductID = '${req.body.productID}'
-        `;
-        console.log(checkQuery)
-        const checkResult = await new sql.Request().query(checkQuery);
-        // if (checkResult.rowsAffected[0]) {
-        //     res.json({
-        //         success: false,
-        //         message: "Duplicate ProductID"
-        //     });
-        // } else {
-
-        // Thêm sản phẩm mới vào CSDL
-        const newQuery = `
-                INSERT INTO Product
+        
+        console.log(req.body)
+        // console.log(req.params.productID)
+        const query = `
+                INSERT INTO [Product]
                 VALUES (
                     '${req.body.productID}',
-                    '${req.body.name}',
+                    N'${req.body.name}',
                     '${req.body.price}',
-                    '${req.body.info}',
+                    N'${req.body.info}',
                     '${req.body.image}',
                     '${req.body.category}',
                     '${req.body.sold}'
                 )
             `;
-        const newResult = await new sql.Request().query(newQuery);
+        await new sql.Request().query(query);
         res.status(201).json({ success: true });
         // }
     } catch (err) {
-        // Trả về status500 và lỗi nếu có lỗi trong quá trình giao tiếp với database
-        res.status(500).json({
+        res.json({
             success: false,
             message: err.message
         });
     }
 });
 
-/**
- * Nhận request update thông tin sản phẩm
- * trả về true/báo lỗi
- */
-productRouter.put('/', async (req, res)=> {
+// productRouter.put('/:productID', isAdministrator, async (req, res) => {
+productRouter.put('/:productID', async (req, res) => {
     try {
-        const newQuery = `
-                UPDATE Product 
-                SET
-                    Name = '${req.body.name}',
+        console.log(req.body)
+        console.log(req.params.productID)
+        const query = `
+                UPDATE [Product]
+                SET 
+                    Name = N'${req.body.name}',
                     Price = '${req.body.price}',
-                    Info = '${req.body.info}',
+                    Info = N'${req.body.info}',
                     Image = '${req.body.image}',
                     Category = '${req.body.category}',
                     Sold = '${req.body.sold}'
-                WHERE ProductID = '${req.body.productID}'
+                WHERE ProductID = '${req.params.productID}'
             `;
-        const newResult = await new sql.Request().query(newQuery);
-        res.status(201).json({ success: true });
-    } catch (error) {
-        // Trả về status500 và lỗi nếu có lỗi trong quá trình giao tiếp với database
-        res.status(500).json({ success: false })
+        await new sql.Request().query(query);
+        res.status(200).json({ success: true });
+    } catch (err) {
+        res.json({
+            success: false,
+            message: err.message
+        });
     }
 });
 
-/**
- * Nhận request trả về 
- * danh sách các sản phẩm trong CSDL
- * danh sách các sản phẩm cần tìm kiếm theo từ khóa (optinal)
- */
-productRouter.get('/list', async (req, res) => {
+// productRouter.delete('/:productID', isAdministrator, async (req, res) => {
+productRouter.delete('/:productID', async (req, res) => {
+    try {
+        console.log(req.params.productID)
+        await new sql.Request().query(`
+            DELETE FROM [Product]
+            WHERE ProductID = '${req.params.productID}'
+        `);
+        res.status(201).json({ success: true });
+    } catch (err) {
+        res.json({
+            success: false,
+            message: err.message
+        });
+    }
+});
+
+productRouter.get('/', async (req, res) => {
     try {
         // Lấy dữ liệu từ CSDL
         // (optional) tìm kiếm các sảm phẩm có tên chứa từ khóa
@@ -132,7 +127,7 @@ productRouter.get('/best-seller', async (req, res) => {
         // (optional) Nếu có yêu cầu về category cụ thể thì chỉ lấy các phẩm trong category đó
         const result = await new sql.Request().query(`
             SELECT TOP 8 * FROM Product
-            ${req.query.category ? ("WHERE Category LIKE 'N" + req.query.category + "'"):''}
+            ${req.query.category ? ("WHERE Category LIKE 'N" + req.query.category + "'") : ''}
             ORDER BY Sold DESC
         `);
 

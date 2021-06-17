@@ -38,12 +38,8 @@ const upload = multer({ //multer settings
     },
 });
 
-/**
- * route này không được gọi trong front end
- * hàm này trước đây chưa hoàn thiện
- */
-// upload.field for upload more fields -> Không phải
-uploadRouter.post("/", upload.single('image'), async (req, res, err) => {
+// upload.field for upload more fields
+uploadRouter.post('/', upload.single('image'), async (req, res, err) => {
     console.log(req.file);
     // handle err ??? how 
     res.status(200).json({

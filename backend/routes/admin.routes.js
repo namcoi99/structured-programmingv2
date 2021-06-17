@@ -24,7 +24,7 @@ adminRouter.get('/count', async (req, res) => {
             SELECT COUNT(*) AS NumberOfOrders, SUM(Total) AS Total
             FROM [Order]
         `);
-
+        
         // Trả về kết quả
         res.status(201).json({
             success: true,

@@ -4,8 +4,8 @@ GO
 USE WebCSDL
 
 -- Table
-DROP TABLE [User]
-CREATE TABLE [User]
+-- DROP TABLE [User]
+--CREATE TABLE [User]
 (
 	Name text,
 	Username varchar(20) UNIQUE NOT NULL,
@@ -30,7 +30,7 @@ GO
 DROP TABLE [Product]
 CREATE TABLE [Product]
 (
-	ProductID varchar(225),
+	ProductID varchar(5),
 	Name ntext,
 	Price decimal(10,0),
 	Info ntext,
@@ -57,7 +57,7 @@ DROP TABLE [OrderList]
 CREATE TABLE [OrderList]
 (
 	OrderID varchar(20),
-	ProductID varchar(225),
+	ProductID varchar(5),
 	Quantity int,
 	PRIMARY KEY (OrderID, ProductID),
 	FOREIGN KEY (OrderID) REFERENCES [Order] (OrderID),
@@ -68,7 +68,7 @@ DROP TABLE [Cart]
 CREATE TABLE [Cart]
 (
 	Username varchar(20),
-	ProductID varchar(225),
+	ProductID varchar(5),
 	Quantity int,
 	PRIMARY KEY (Username, ProductID),
 	FOREIGN KEY (Username) REFERENCES [Customer] (Username),
@@ -76,7 +76,7 @@ CREATE TABLE [Cart]
 )
 
 -- Trigger
-/* Tự động cập nhật số lượng đã bán của sản phẩm sau khi đặt hàng*/
+/* cập nhật hàng trong kho sau khi đặt hàng hoặc cập nhật */
 DROP TRIGGER trg_OrderList
 CREATE TRIGGER trg_OrderList ON [OrderList] AFTER INSERT AS 
 BEGIN
@@ -90,7 +90,7 @@ BEGIN
 END
 GO
 
-/* Tự động xóa giỏ hàng sau khi đặt hàng (order/thanh toán) */
+/* xóa giỏ hàng sau khi đặt hàng (order/thanh toán) */
 DROP TRIGGER trg_ClearCart
 CREATE TRIGGER trg_ClearCart ON [Order] AFTER INSERT AS 
 BEGIN
@@ -112,7 +112,7 @@ BEGIN
 end
 GO*/
 
-/* Tự động cập nhật số lượng đã bán của sản phẩm sau khi hủy đặt hàng */
+/* cập nhật hàng trong kho sau khi hủy đặt hàng */
 DROP TRIGGER trg_CancelOrder
 CREATE TRIGGER trg_CancelOrder ON [OrderList] FOR DELETE AS 
 BEGIN

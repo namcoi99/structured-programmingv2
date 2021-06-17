@@ -7,7 +7,7 @@ const cartRouter = express.Router();
  * Nhận request thêm sản phẩm vào giỏ hàng
  * trả về true/báo lỗi
  */
-cartRouter.post('/add', async (req, res) => {
+cartRouter.post('/', async (req, res) => {
     try {
         // Kiểm tra xem sản phẩm được thêm đã có trong giỏ hàng chưa
         const checkResult = await new sql.Request().query(`
@@ -46,11 +46,7 @@ cartRouter.post('/add', async (req, res) => {
     }
 });
 
-/**
- * Nhận request xóa sản phẩm trong giỏ hàng
- * trả về true/báo lỗi
- */
-cartRouter.delete('/delete', async (req, res) => {
+cartRouter.delete('/', async (req, res) => {
     try {
         // Xóa sản phẩm trong giỏ hàng trong database
         const result = await new sql.Request().query(`
@@ -67,11 +63,7 @@ cartRouter.delete('/delete', async (req, res) => {
     }
 });
 
-/**
- * Nhận request thay đổi số lượng sản phẩm trong giỏ hàng
- * trả về true/báo lỗi
- */
-cartRouter.post('/update', async (req, res) => {
+cartRouter.put('/', async (req, res) => {
     try {
         // Update số lượng sản phẩm trong giỏ hàng trong database
         const result = await new sql.Request().query(`
