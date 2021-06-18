@@ -53,7 +53,7 @@ class App extends Component {
       password: password
     })
       .then(response => {
-        if (response.data.success !== false) {
+        if (response.data.success != false) {
           // Lưu lại tên và id người dùng nếu login thành công
           this.setState({
             username: response.data.username,
@@ -75,7 +75,9 @@ class App extends Component {
           alert("Wrong username or password");
         }
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        alert("Đăng nhập không thành công")
+      })
   }
 
   // Gửi request thêm mới sản phẩm vào giỏ hàng cho backend

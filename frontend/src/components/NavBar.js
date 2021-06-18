@@ -117,11 +117,7 @@ class NavBar extends Component {
             // Hiển thị nút đăng nhập nếu người dùng chưa login
             SignIn = (
                 <li className="nav-item dropdown">
-                    <a className="nav-link dropdown-toggle" href="#" id="signinDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Đăng nhập</a>
-                    <div className="dropdown-menu" aria-labelledby="signinDropdown">
-                        <a className="dropdown-item" href='/signin'>User</a>
-                        <a className="dropdown-item" href='/'>Admin</a>
-                    </div>
+                    <a className="nav-link" href="/signin" id="signinDropdown" role="button" aria-haspopup="true" aria-expanded="false">Đăng nhập</a>
                 </li>
 
             )
