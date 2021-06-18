@@ -2,15 +2,3 @@
     padding: 50px;
     max-width: 1980px;
 }
-
-.order__edit-icon {
-    color: #2196F3;
-    font-size: 16px;
-    margin: 0 5px;
-}
-
-.order__delete-icon {
-    color: #F44336;
-    font-size: 16px;
-    margin: 0 5px;
-}

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from '../axios';
 import '../Css/order-list.css';
 import Navbar from './NavBar';
 
@@ -13,7 +14,11 @@ class Order extends Component {
         }
     }
 
-    async UNSAFE_componentWillMount() {
+    UNSAFE_componentWillMount() {
+        this.getData()
+    }
+
+    getData = async () => {
         const username = localStorage.getItem('username');
         try {
             const data = await fetch(`http://localhost:5000/order?username=${username}`,
@@ -35,42 +40,94 @@ class Order extends Component {
         }
     }
 
+    handleCancelOrder = (orderID) => {
+        var confirmMsg = window.confirm("Bạn có thực sự muốn hủy đơn hàng?")
+        if (confirmMsg) {
+            axios.put("/order", {
+                orderID: orderID,
+                status: "Đã hủy"
+            }).then(res => {
+                console.log(res)
+                this.getData()
+            }).catch(err => {
+                console.log(err)
+            })
+        }
+    }
+
     render() {
 
-        const OrderList = this.state.orderDetails.map(item => (
-            <div key={item.OrderID} className="orderlist-item" >
-                <a className="order-id" href={`/order-detail/${item.OrderID}`}>{item.OrderID}</a>
-                <div className="order-date">{item.CreateDate.substr(0,10)}</div>
-                <div className="order-name">{item.Username}</div>
-                <div className="order-total">{item.Total}</div>
-                <div className="order-status">{item.Status}</div>
-            </div>
-        ));
+        const orderList = this.state.orderDetails.map(item => (
+            <tr key={item.OrderID}>
+                <th scope="row">{item.OrderID}</th>
+                <td>{item.CreateDate.substr(0, 10)}</td>
+                <td>{item.Username}</td>
+                <td>{item.Total}đ</td>
+                <td>{item.Status}</td>
+                <td className="text-right">
+                    {item.Status !== "Đã hủy" ? (
+                        <button className="btn btn-danger" onClick={() => this.handleCancelOrder(item.OrderID)}>Hủy đơn hàng</button>
+                    ) : ""}
+                </td>
+            </tr>
+        ))
+
+        const orderTable = this.state.orderDetails.length !== 0 ? (
+            <table className="table table-light">
+                <thead className="table-dark">
+                    <tr>
+                        <th scope="col">Mã đơn hàng</th>
+                        <th scope="col">Ngày đặt hàng</th>
+                        <th scope="col">Khách hàng</th>
+                        <th scope="col">Tổng giá trị</th>
+                        <th scope="col">Trạng thái</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {orderList}
+                </tbody>
+            </table>
+        ) : <div>Không có đơn hàng nào để hiển thị.</div>
 
         return (
             <div>
                 <Navbar products={this.props.state.products} handleSearch={this.props.handleSearch} Total={this.props.state.Total} count={this.props.state.count} />
-                <div className="orderlist">
-                    {/* <div className="orderlist-top">
-                        <a href="/home">Trang chủ</a>
-                        <i className="fas fa-chevron-right"></i>
-                        <a href="/order-list">Đơn hàng</a>
-                    </div> */}
-                    <div className="orderlist-bottom">
-                        <div className="order-list-header">
-                            Đơn hàng đã đặt
-                        </div>
-                        <div className="order-list-orderlist">
-                            <div className="orderlist-header">
-                                <div className="order-id">Mã đơn hàng</div>
-                                <div className="order-date">Ngày đặt hàng</div>
-                                <div className="order-name">Khách hàng</div>
-                                <div className="order-total">Tổng giá trị</div>
-                                <div className="order-status">Trạng thái</div>
-                            </div>
-                            <div>{OrderList}</div>
-                        </div>
+                <div style={{ minHeight: "80vh" }}>
+                    <h1 className="text-center mt-5 font-weight-bold text-uppercase">Các đơn hàng đã đặt</h1>
+                    <div className="order__table">
+                        {orderTable}
                     </div>
+                    {/* Pagination */}
+                    {/* <nav className="d-flex justify-content-center mb-4">
+                <ul className="pagination pagination-base pagination-boxed pagination-square mb-0">
+                    <li className={`page-item ${this.state.currentPageNumber === 1 ? 'disabled' : ''}`}
+                        onClick={this.handlePrevClick}>
+                        <a className="page-link no-border" href="#">
+                            <span aria-hidden="true">«</span>
+                            <span className="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    {paginations.map((item) => {
+                        return (
+                            <li className={`page-item ${item === this.state.currentPageNumber ? 'active' : ''}`}
+                                key={item}
+                                onClick={() => { this.handlePageChange(item) }}
+                            >
+                                <a className="page-link" href="#">{item}</a>
+                            </li>
+                        );
+                    })}
+                    <li className={`page-item ${this.state.currentPageNumber === this.state.maxPageNumber ? 'disabled' : ''}`}
+                        onClick={this.handleNextClick}>
+                        <a className="page-link no-border" href="#">
+                            <span aria-hidden="true">»</span>
+                            <span className="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav> */}
+                    {/* End Pagination */}
                 </div>
             </div>
         );

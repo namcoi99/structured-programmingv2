@@ -6,8 +6,7 @@ import  '../Css/sign-in.css';
 class SignIn extends Component {
     state = {
         username: '',
-        password: '',
-        code: ''
+        password: ''
     }
 
     // Thay đổi state theo nội dung người dùng nhập vào form
@@ -25,7 +24,7 @@ class SignIn extends Component {
     handleSubmit=(e) => {
         e.preventDefault();
         console.log(this.state)
-        this.props._onLogin(this.state.username,this.state.password, this.state.code)
+        this.props._onLogin(this.state.username,this.state.password)
     }
 
     render() {

@@ -78,7 +78,7 @@ class AdminNavbar extends Component {
 
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                <a className="navbar-brand" href="/admin"><i className="fas fa-frog" style={{ fontSize: "2rem" }}></i> <b style={{ fontSize: "1.5rem" }}>STREETWEAR</b></a>
+                <a className="navbar-brand" href="/"><i className="fas fa-frog" style={{ fontSize: "2rem" }}></i> <b style={{ fontSize: "1.5rem" }}>STREETWEAR</b></a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon" />
                 </button>
@@ -88,7 +88,10 @@ class AdminNavbar extends Component {
                             <a className="nav-link" href="/admin">Sản phẩm<span className="sr-only">(current)</span></a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/admin/user" >Khách hàng</a>
+                            <a className="nav-link" href="/admin/orders">Đơn Hàng</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="/admin/users" >Khách hàng</a>
                         </li>
                         {/* <li className="nav-item">
                             <a className="nav-link" href="/admin/product" >Sản phẩm</a>

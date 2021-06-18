@@ -58,19 +58,27 @@ margin-top: 3px;
     border-bottom: 2px solid #f1f1f1;
 }
 .order-id{
-    width: 20%;
+    flex:1;
 }
 .order-date{
-    width: 20%;
+    flex:1;
+
 }
 .order-name{
-    width: 20%;
+    flex:1;
+
 }
 .order-total{
-    width: 20%;
+    flex:1;
+
 }
 .order-status{
-    width: 20%;
+    flex:1;
+
+}
+
+.order-action{
+    justify-self: flex-end;
 }
 
 /* footer */

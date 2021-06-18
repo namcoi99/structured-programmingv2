@@ -110,30 +110,43 @@ class NavBar extends Component {
 
         // Lấy tên người dùng từ localStorage
         var username = localStorage.getItem('username')
-        let SignIn
-        let SignUp
-        let LogOut
+        var checkAdmin = localStorage.getItem('admin') === 'true'
+        let SignIn, SignUp, LogOut
         // Nếu chưa đăng nhập thì hiển thị nút đăng ký và đăng nhập, ngược lại thì hiển thị "Chào mừng" + tên người dùng
         if (username == null) {
             // Hiển thị nút đăng nhập nếu người dùng chưa login
             SignIn = (
-                <a className="nav-link" href="/signin">Đăng nhập</a>
+                <li className="nav-item dropdown">
+                    <a className="nav-link dropdown-toggle" href="#" id="signinDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Đăng nhập</a>
+                    <div className="dropdown-menu" aria-labelledby="signinDropdown">
+                        <a className="dropdown-item" href='/signin'>User</a>
+                        <a className="dropdown-item" href='/'>Admin</a>
+                    </div>
+                </li>
+
             )
         } else {
             // Hiển thị "Chào mừng" + tên người dùng nếu người dùng đã login
             SignIn = (
-                <div className="nav-link text-white">Chào mừng, {username} </div>
+                <li className="nav-item">
+                    {/* <div className="nav-link text-white">Chào mừng, {username} </div> */}
+                    <a className="nav-link text-white" href={checkAdmin ? "/admin": null}>Chào mừng, {username} </a>
+                </li>
             )
         }
         // Hiển thị nút đăng ký nếu người dùng chưa đăng nhập
         if (username == null)
             SignUp = (
-                <a className="nav-link" href="/signup">Đăng ký</a>
+                <li className="nav-item">
+                    <a className="nav-link" href="/signup">Đăng ký</a>
+                </li>
             )
         // Hiển thị nút logout nếu người dùng đã đăng nhập
         if (username != null)
             LogOut = (
-                <a className="nav-link" href='/' onClick={this.SignOut}>Đăng xuất</a>
+                <li className="nav-item">
+                    <a className="nav-link" href='/' onClick={this.SignOut}>Đăng xuất</a>
+                </li>
             )
         return (
             // Thanh điều hướng
@@ -173,15 +186,9 @@ class NavBar extends Component {
 
                     </form>
                     <ul className="navbar-nav ml-2">
-                        <li className="nav-item">
-                            {SignUp}
-                        </li>
-                        <li className="nav-item">
-                            {SignIn}
-                        </li>
-                        <li className="nav-item">
-                            {LogOut}
-                        </li>
+                        {SignUp}
+                        {SignIn}
+                        {LogOut}
                     </ul>
                 </div>
             </nav>

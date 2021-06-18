@@ -14,7 +14,7 @@ import OrderListSearch from './components/OrderListSearch.js';
 import AdminDashboard from './containers/AdminDashboard.js';
 import AdminNavbar from './components/AdminNavbar.js';
 import Footer from './components/Footer.js';
-import OrderTable from './components/OrderTable.js';
+import AdminOrderList from './components/AdminOrderList.js';
 
 const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>;
 
@@ -47,11 +47,10 @@ class App extends Component {
   }
 
   // Gửi request login cho backend
-  _onLogin = (username, password, code) => {
+  _onLogin = (username, password) => {
     axios.post('/customer/login', {
       username: username,
-      password: password,
-      code: code
+      password: password
     })
       .then(response => {
         if (response.data.success !== false) {
@@ -174,6 +173,14 @@ class App extends Component {
                   </div>
                 )
               }} />
+              <Route exact path="/admin/orders" render={(props) => {
+                return (
+                  <div>
+                    <AdminNavbar />
+                    <AdminOrderList />
+                  </div>
+                )
+              }} />
               {/* <Route exact path="/admin/user" render={(props) => {
                 return (
                   <div>
@@ -211,9 +218,6 @@ class App extends Component {
               }} />
               <Route exact path="/order/list/:orderID" render={(props) => {
                 return <OrderListSearch {...props} state={this.state} />
-              }} />
-              <Route exact path="/order-table" render={(props) => {
-                return <OrderTable />
               }} />
             </Switch>
           </React.Suspense>
