@@ -43,14 +43,14 @@ class AdminNavbar extends Component {
 
     SignOut = () => {
         localStorage.removeItem("username")
-        localStorage.removeItem("isAdmin")
+        localStorage.removeItem("admin")
         localStorage.removeItem('cart')
         this.props.username = null
         window.location.href = '/'
     }
 
     _checkAdmin = function () {
-        if (!window.localStorage.getItem('isAdmin')) {
+        if (window.localStorage.getItem('admin') == 'false') {
             alert("You do not have permission to access");
             window.location.href = "/"
         }
