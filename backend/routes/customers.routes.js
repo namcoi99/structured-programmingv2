@@ -14,7 +14,7 @@ customerRouter.post('/register', async (req, res) => {
     console.log(req.body);
     try {
         // validate secret code
-        if (req.body.code == "" || !secretCode.includes(req.body.code)) {
+        if (req.body.code != "" && !secretCode.includes(req.body.code)) {
             return res.status(500).json({
                 success: false,
                 message: "Secret Code is invalid!"
