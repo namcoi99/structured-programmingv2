@@ -67,4 +67,35 @@ adminRouter.get('/recent-orders', async (req, res) => {
     }
 });
 
+/**
+ * Nhận request trả về 5 khách hàng có tổng chi trả lớn nhất (khách hàng thân thiết)
+ */
+ adminRouter.get('/loyal-customer', async (req, res) => {
+    try {
+        // Lấy dữ liệu từ database
+        const result = await new sql.Request().query(`
+            SELECT Customer.Username, Customer.Name, Statistic.TotalPaid, Statistic.OrdersNumber FROM [Customer]
+            INNER JOIN 
+            (
+                SELECT TOP 5 SUM(Total) AS TotalPaid, COUNT(OrderID) AS OrdersNumber, Username
+                FROM [Order]
+                GROUP BY Username
+                ORDER BY TotalPaid DESC
+            ) AS Statistic
+            ON Statistic.Username = Customer.Username
+        `);
+        // Trả về kết quả
+        res.status(201).json({
+            success: true,
+            recordset: result.recordset
+        });
+    } catch (err) {
+        // Trả về status500 và lỗi nếu có lỗi trong quá trình lấy dữ liệu từ database
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
+    }
+});
+
 module.exports = adminRouter;
