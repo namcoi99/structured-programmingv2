@@ -44,6 +44,7 @@ class NavBar extends Component {
     SignOut = () => {
         // Xóa tên và giỏ hàng khỏi localStorage
         localStorage.removeItem("username")
+        localStorage.removeItem("admin")
         localStorage.removeItem('cart')
         this.props.username = null
         // reload lại trang

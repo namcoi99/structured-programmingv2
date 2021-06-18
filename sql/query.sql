@@ -1,29 +1,19 @@
 ﻿-- View
+USE WebCSDL
 SELECT * FROM [Customer]
 SELECT * FROM [Product]
 SELECT * FROM [Order]
 SELECT * FROM [OrderList]
 SELECT * FROM [Cart]
 
--- Admin 
-UPDATE Customer
-SET Permission = '1111'
-WHERE Username = 'admin'
-
-DELETE FROM [Cart]
-DELETE FROM [Order]
-
-DELETE FROM [OrderList]
-WHERE CreateDate = '1578073318545'
-
-DELETE FROM [Product]
-WHERE ProductID = 'PZ100'
-
 -- Test
-UPDATE Product
-SET ProductID = 'PZ10'
-WHERE ProductID = 'PZ010'
-
-INSERT INTO Customer
-VALUES ('trananhtuan12a10@gmail.com','$2a$10$KJSYeLMhz9q0f/NVhHHFeuvjIO7Uj5OR51ldiF9LVtjwYBSPEPOi.',N'Tran AnhTuan',N'ABC','0981524316','0001')
-
+-- Khách hàng thân thiết
+SELECT Customer.Username, Customer.Name, Statistic.TotalPaid, Statistic.OrdersNumber FROM [Customer]
+INNER JOIN 
+(
+	SELECT TOP 5 SUM(Total) AS TotalPaid, COUNT(OrderID) AS OrdersNumber, Username
+	FROM [Order]
+	GROUP BY Username
+	ORDER BY TotalPaid DESC
+) AS Statistic
+ON Statistic.Username = Customer.Username

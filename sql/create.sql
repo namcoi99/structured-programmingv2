@@ -3,18 +3,7 @@ GO
 
 USE WebCSDL
 
--- Table
--- DROP TABLE [User]
---CREATE TABLE [User]
-(
-	Name text,
-	Username varchar(20) UNIQUE NOT NULL,
-	Password text NOT NULL,
-	PRIMARY KEY (Username)
-)
-GO
-
-DROP TABLE [Customer]
+-- DROP TABLE [Customer]
 CREATE TABLE [Customer]
 (
 	Username varchar(20) UNIQUE NOT NULL,
@@ -27,10 +16,10 @@ CREATE TABLE [Customer]
 )
 GO
 
-DROP TABLE [Product]
+-- DROP TABLE [Product]
 CREATE TABLE [Product]
 (
-	ProductID varchar(5),
+	ProductID int IDENTITY(1,1),
 	Name ntext,
 	Price decimal(10,0),
 	Info ntext,
@@ -41,7 +30,7 @@ CREATE TABLE [Product]
 )
 GO
 
-DROP TABLE [Order]
+-- DROP TABLE [Order]
 CREATE TABLE [Order]
 (
 	OrderID varchar(20),
@@ -53,31 +42,32 @@ CREATE TABLE [Order]
 	FOREIGN KEY (Username) REFERENCES [Customer] (Username)
 )
 
-DROP TABLE [OrderList]
+-- DROP TABLE [OrderList]
 CREATE TABLE [OrderList]
 (
 	OrderID varchar(20),
-	ProductID varchar(5),
+	ProductID int,
 	Quantity int,
 	PRIMARY KEY (OrderID, ProductID),
 	FOREIGN KEY (OrderID) REFERENCES [Order] (OrderID),
 	FOREIGN KEY (ProductID) REFERENCES [Product] (ProductID)
 )
 
-DROP TABLE [Cart]
+-- DROP TABLE [Cart]
 CREATE TABLE [Cart]
 (
 	Username varchar(20),
-	ProductID varchar(5),
+	ProductID int,
 	Quantity int,
 	PRIMARY KEY (Username, ProductID),
 	FOREIGN KEY (Username) REFERENCES [Customer] (Username),
 	FOREIGN KEY (ProductID) REFERENCES [Product] (ProductID)
 )
+GO
 
 -- Trigger
 /* cập nhật hàng trong kho sau khi đặt hàng hoặc cập nhật */
-DROP TRIGGER trg_OrderList
+--  DROP TRIGGER trg_OrderList
 CREATE TRIGGER trg_OrderList ON [OrderList] AFTER INSERT AS 
 BEGIN
 	UPDATE [Product]
@@ -91,7 +81,7 @@ END
 GO
 
 /* xóa giỏ hàng sau khi đặt hàng (order/thanh toán) */
-DROP TRIGGER trg_ClearCart
+-- DROP TRIGGER trg_ClearCart
 CREATE TRIGGER trg_ClearCart ON [Order] AFTER INSERT AS 
 BEGIN
 	DELETE FROM [Cart]
@@ -101,7 +91,7 @@ BEGIN
 END
 GO
 
-/* cập nhật hàng trong kho sau khi cập nhật đặt hàng */
+/* cập nhật hàng trong kho sau khi cập nhật đặt hàng (hủy đơn hàng)*/
 /*CREATE TRIGGER trg_CapNhatDatHang on tbl_DatHang after update AS
 BEGIN
    UPDATE tbl_KhoHang SET SoLuongTon = SoLuongTon -
@@ -112,9 +102,9 @@ BEGIN
 end
 GO*/
 
-/* cập nhật hàng trong kho sau khi hủy đặt hàng */
-DROP TRIGGER trg_CancelOrder
-CREATE TRIGGER trg_CancelOrder ON [OrderList] FOR DELETE AS 
+/* cập nhật hàng trong kho sau khi xóa đơn hàng */
+-- DROP TRIGGER trg_DeleteOrder
+/* CREATE TRIGGER trg_DeleteOrder ON [OrderList] FOR DELETE AS 
 BEGIN
 	UPDATE Product
 	SET Sold = Sold - (
@@ -123,5 +113,5 @@ BEGIN
 	)
 	FROM Product
 	JOIN deleted ON Product.ProductID = deleted.ProductID
-END
+END *?
 
