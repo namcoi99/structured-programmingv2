@@ -14,6 +14,7 @@ import OrderListSearch from './components/OrderListSearch.js';
 import AdminDashboard from './containers/AdminDashboard.js';
 import AdminNavbar from './components/AdminNavbar.js';
 import Footer from './components/Footer.js';
+import OrderTable from './components/OrderTable.js';
 
 const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>;
 
@@ -61,7 +62,7 @@ class App extends Component {
           // console.log(this.state)
           localStorage.setItem('username', response.data.username)
           // console.log(response.data.username)
-          if(response.data.username == 'admin') {
+          if (response.data.username == 'admin') {
             window.location.href = '/admin';
           } else {
             window.location.href = '/';
@@ -207,6 +208,9 @@ class App extends Component {
               }} />
               <Route exact path="/order/list/:orderID" render={(props) => {
                 return <OrderListSearch {...props} state={this.state} />
+              }} />
+              <Route exact path="/order-table" render={(props) => {
+                return <OrderTable />
               }} />
             </Switch>
           </React.Suspense>
