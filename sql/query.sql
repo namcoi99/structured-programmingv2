@@ -17,3 +17,13 @@ INNER JOIN
 	ORDER BY TotalPaid DESC
 ) AS Statistic
 ON Statistic.Username = Customer.Username
+
+-- Đơn hàng chưa thanh toán
+SELECT Cart.Username, SUM(Product.Price)*1.05 AS Total FROM [Cart]
+INNER JOIN [Product] ON Cart.ProductID = Product.ProductID
+GROUP BY Cart.Username
+
+-- Thông tin đơn hàng
+SELECT [Order].*, Customer.Name, Customer.Address, Customer.Phone FROM [Order]
+INNER JOIN [Customer] ON Customer.Username = [Order].Username
+WHERE OrderID = '1623982297858'

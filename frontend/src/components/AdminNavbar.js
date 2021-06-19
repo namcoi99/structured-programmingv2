@@ -55,7 +55,7 @@ class AdminNavbar extends Component {
             window.location.href = "/"
         }
     };
-    
+
     // viewOrder = (event) => {
     //     event.preventDefault();
     //     const username = localStorage.getItem('username');
@@ -105,6 +105,9 @@ class AdminNavbar extends Component {
 
                     </form> */}
                     <ul className="navbar-nav ml-2">
+                        <li className="nav-item">
+                            <a className="nav-link text-white" href='/admin'>Chào mừng, {localStorage.getItem('username')} </a>
+                        </li>
                         <li className="nav-item">
                             <a className="nav-link" href='/' onClick={this.SignOut}>Đăng xuất</a>
                         </li>

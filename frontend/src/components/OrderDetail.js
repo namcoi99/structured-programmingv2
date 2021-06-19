@@ -17,21 +17,10 @@ class OrderDetail extends Component {
     }
 
     async UNSAFE_componentWillMount() {
-        // FIXME: sai cơ mà kệ vẫn hơi đúng
         const username = localStorage.getItem('username');
         const orderID = window.location.pathname.split('/')[2];
         // console.log(orderID);
         try {
-            const userData = await fetch(`http://localhost:5000/customer/info/${username}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    credentials: 'include'
-                }
-            ).then((res) => { return res.json(); });
-            console.log(userData.data);
             const data = await fetch(`http://localhost:5000/order/${orderID}`,
                 {
                     method: 'GET',
@@ -43,7 +32,11 @@ class OrderDetail extends Component {
             ).then((res) => { return res.json(); });
             console.log(data.data);
             this.setState({
-                userInfo: userData.data,
+                userInfo: {
+                    Name: data.data.detail.Name,
+                    Address: data.data.detail.Address,
+                    Phone: data.data.detail.Phone
+                },
                 orderID: orderID,
                 detail: data.data.detail,
                 orderList: data.data.orderList

@@ -4,6 +4,62 @@ const sql = require('mssql');
 const cartRouter = express.Router();
 
 /**
+ * Nhận request trả về thông tin đơn hàng chưa thanh toán (giỏ hàng) của tất cả username
+ * Thông tin bao gồm:
+ * ProductID, Name, Image (Tên file ảnh), Quantity, Price (Đơn giá)
+ */
+ cartRouter.get('/', async (req, res) => {
+    try {
+        // Lấy dữ liệu từ database
+        const result = await new sql.Request().query(`
+            SELECT Cart.Username, SUM(Product.Price)*1.05 AS Total FROM [Cart]
+            INNER JOIN [Product] ON Cart.ProductID = Product.ProductID
+            GROUP BY Cart.Username
+        `);
+        
+        // Trả về kết quả
+        res.status(201).json({
+            success: true,
+            data: result.recordset
+        });
+    } catch (err) {
+        // Trả về status500 và lỗi nếu có lỗi trong quá trình lấy dữ liệu từ database
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
+    }
+});
+
+/**
+ * Nhận request trả về thông tin giỏ hàng của username
+ * Thông tin giỏ hàng bao gồm:
+ * ProductID, Name, Image (Tên file ảnh), Quantity, Price (Đơn giá)
+ */
+ cartRouter.get('/:username', async (req, res) => {
+    try {
+        // Lấy dữ liệu từ database
+        const result = await new sql.Request().query(`
+            SELECT Cart.ProductID, Name, Image, Quantity, Price FROM [Cart]
+            INNER JOIN [Product] ON Cart.ProductID = Product.ProductID
+            WHERE Username = '${req.params.username}'
+        `);
+        
+        // Trả về kết quả
+        res.status(201).json({
+            success: true,
+            data: result.recordset
+        });
+    } catch (err) {
+        // Trả về status500 và lỗi nếu có lỗi trong quá trình lấy dữ liệu từ database
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
+    }
+});
+
+/**
  * Nhận request thêm sản phẩm vào giỏ hàng
  * trả về true/báo lỗi
  */
@@ -79,35 +135,6 @@ cartRouter.put('/', async (req, res) => {
             message: err.message
         });
     }
-});
-
-/**
- * Nhận request trả về thông tin giỏ hàng của username
- * Thông tin giỏ hàng bao gồm:
- * ProductID, Name, Image (Tên file ảnh), Quantity, Price (Đơn giá)
- */
-cartRouter.get('/:username', async (req, res) => {
-    try {
-        // Lấy dữ liệu từ database
-        const result = await new sql.Request().query(`
-            SELECT Cart.ProductID, Name, Image, Quantity, Price FROM [Cart]
-            INNER JOIN [Product] ON Cart.ProductID = Product.ProductID
-            WHERE Username = '${req.params.username}'
-        `);
-        
-        // Trả về kết quả
-        res.status(201).json({
-            success: true,
-            data: result.recordset
-        });
-    } catch (err) {
-        // Trả về status500 và lỗi nếu có lỗi trong quá trình lấy dữ liệu từ database
-        res.status(500).json({
-            success: false,
-            message: err.message
-        });
-    }
-
 });
 
 module.exports = cartRouter;

@@ -31,20 +31,29 @@ const AdminOrderList = () => {
     // ])
 
     useEffect(() => {
-        const username = localStorage.getItem('username');
-        async function fetchOrders(username) {
+        async function fetchOrders() {
             try {
-                const orderData = await axios.get(`/order?username=${username}`)
-                console.log(orderData)
-                const orderList = orderData.data.data.recordset
-                console.log(orderList.length)
+                // Lấy danh sách đơn hàng chưa thanh toán
+                const orderData = await axios.get(`/cart`);
+                const orderList = orderData.data.data;
+
+                // Lấy danh sách đơn hàng đã thanh toán/đã hủy
+                const orderData2 = await axios.get(`/order?username=all`)
+                // console.log(orderData)
+                const orderList2 = orderData2.data.data.recordset
+                // console.log(orderList.length)
+
+                
+                orderList.push(...orderList2);
+                console.log(orderList)
+
                 // orderList.length !== 0 ? setOrders(orderList) : setOrders(fakeOrders)
                 setOrders(orderList)
             } catch (err) {
                 console.log(err)
             }
         }
-        fetchOrders(username);
+        fetchOrders();
     }, [])
 
     const handleDeleteOrder = (orderID) => {
@@ -75,19 +84,21 @@ const AdminOrderList = () => {
 
     const orderList = orders ? orders.map(item => (
         <tr key={item.OrderID}>
-            <th scope="row">{item.OrderID}</th>
-            <td>{item.CreateDate.substr(0, 10)}</td>
+            <th scope="row">{item.OrderID ? item.OrderID : '---'}</th>
+            <td>{item.CreateDate ? item.CreateDate.substr(0, 10) : '---'}</td>
             <td>{item.Username}</td>
-            <td>{item.Total}đ</td>
-            <td>{item.Status}</td>
+            <td>{item.Total} đ</td>
+            <td>{item.Status ? item.Status : 'Chưa thanh toán'}</td>
             <td className="text-center">
                 <a href={`/order-detail/${item.OrderID}`}>
                     <button type="button" className="btn btn-outline-primary btn-sm mr-2"><i className="fas fa-eye"></i></button>
                 </a>
-                <a onClick={() => handleDeleteOrder(item.OrderID)}>
-                    <button type="button" className="btn btn-outline-danger btn-sm"><i className="fas fa-trash-alt"></i>
-                    </button>
-                </a>
+                {item.OrderID ? (
+                    <a onClick={() => handleDeleteOrder(item.OrderID)}>
+                        <button type="button" className="btn btn-outline-danger btn-sm"><i className="fas fa-trash-alt"></i>
+                        </button>
+                    </a>
+                ) : null}
             </td>
         </tr>
     )) : ""

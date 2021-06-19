@@ -59,7 +59,11 @@ class Order extends Component {
 
         const orderList = this.state.orderDetails.map(item => (
             <tr key={item.OrderID}>
-                <th scope="row">{item.OrderID}</th>
+                <th scope="row">
+                    <a className="order-id" href={`/order-detail/${item.OrderID}`} style={{textDecorationLine: "none"}}>
+                        {item.OrderID}
+                    </a>
+                </th>
                 <td>{item.CreateDate.substr(0, 10)}</td>
                 <td>{item.Username}</td>
                 <td>{item.Total}đ</td>

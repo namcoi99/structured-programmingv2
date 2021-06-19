@@ -3,6 +3,84 @@ const sql = require('mssql');
 
 const orderRouter = express.Router();
 
+/**
+ * Nhận request lấy danh sách thông tin các đơn hàng của 1 User/ tất cả Users
+ */
+orderRouter.get('/', async (req, res) => {
+    try {
+        // Lấy dữ liệu từ CSDL
+        const result = await new sql.Request().query(`
+            SELECT * FROM [Order]
+            ${req.query.username === 'all' ? '' : `WHERE Username = '${req.query.username}`} 
+            ORDER BY CreateDate DESC 
+        `);
+
+        // Trả về kết quả
+        res.status(200).json({
+            success: true,
+            data: {
+                recordset: result.recordset,
+                total: result.rowsAffected[0]
+            }
+        });
+    } catch (err) {
+        // Trả về status500 và lỗi nếu có lỗi trong quá trình giao tiếp với database
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
+    }
+});
+
+/**
+ * Nhận request trả về
+ * thông tin đơn hàng theo mã đơn hàng 
+ * thông tin chủ đơn hàng
+ * + danh sách sản phẩm trong đơn hàng 
+ */
+orderRouter.get('/:orderID', async (req, res) => {
+    try {
+        // Kiểm tra xem đơn hàng có tồn tại hay không
+        const checkResult = await new sql.Request().query(`
+            SELECT [Order].*, Customer.Name, Customer.Address, Customer.Phone FROM [Order]
+            INNER JOIN [Customer] ON Customer.Username = [Order].Username
+            WHERE OrderID = '${req.params.orderID}'
+        `);
+        // Nếu không tồn tại thì gửi lại lỗi 
+        if (!checkResult.rowsAffected[0]) {
+            res.json({
+                success: false,
+                message: "OrderID not exist"
+            });
+
+            // Nếu có tồn tại thì lấy dữ liệu các sản phẩm trong đơn hàng đó
+            // (Tìm trong OrderList các bản ghi có OrderID = req.params.orderID)
+        } else {
+            // orderlist
+            const orderList = await new sql.Request().query(`
+                SELECT OrderList.ProductID, Name, Image, Quantity, Price FROM [OrderList]
+                INNER JOIN [Product] ON OrderList.ProductID = Product.ProductID
+                WHERE OrderID = '${req.params.orderID}'
+            `);
+
+            // Trả về kết quả
+            res.status(200).json({
+                success: true,
+                data: {
+                    detail: checkResult.recordset[0],
+                    orderList: orderList.recordset
+                }
+            });
+        }
+    } catch (err) {
+        // Trả về status500 và lỗi nếu có lỗi trong quá trình giao tiếp với database
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
+    }
+});
+
 orderRouter.post('/', async (req, res) => {
     try {
         console.log(req.body);
@@ -121,8 +199,8 @@ orderRouter.delete('/:orderID', async (req, res) => {
 
             // Nếu có tồn tại thì thực hiện xóa orderlist
         } else {
-             // Nếu đơn hàng không trong trạng thái đã hủy thì thực hiện update số lượng đã bán
-             if (checkResult.recordset[0].Status != "Đã hủy") {
+            // Nếu đơn hàng không trong trạng thái đã hủy thì thực hiện update số lượng đã bán
+            if (checkResult.recordset[0].Status != "Đã hủy") {
                 const orderList = await new sql.Request().query(`
                     SELECT * FROM [OrderList]
                     WHERE OrderID = '${req.params.orderID}'
@@ -141,79 +219,6 @@ orderRouter.delete('/:orderID', async (req, res) => {
             await new sql.Request().query(delQuery);
 
             res.status(200).json({ success: true });
-        }
-    } catch (err) {
-        // Trả về status500 và lỗi nếu có lỗi trong quá trình giao tiếp với database
-        res.status(500).json({
-            success: false,
-            message: err.message
-        });
-    }
-});
-
-orderRouter.get('/', async (req, res) => {
-    try {
-        // Lấy dữ liệu từ CSDL
-        const result = await new sql.Request().query(`
-            SELECT * FROM [Order]
-            WHERE Username = '${req.query.username}'
-            ORDER BY CreateDate DESC 
-        `);
-
-        // Trả về kết quả
-        res.status(200).json({
-            success: true,
-            data: {
-                recordset: result.recordset,
-                total: result.rowsAffected[0]
-            }
-        });
-    } catch (err) {
-        // Trả về status500 và lỗi nếu có lỗi trong quá trình giao tiếp với database
-        res.status(500).json({
-            success: false,
-            message: err.message
-        });
-    }
-});
-
-/**
- * Nhận request trả về
- * thông tin đơn hàng theo mã đơn hàng 
- * + danh sách sản phẩm trong đơn hàng 
- */
-orderRouter.get('/:orderID', async (req, res) => {
-    try {
-        // Kiểm tra xem đơn hàng có tồn tại hay không
-        const checkResult = await new sql.Request().query(`
-            SELECT * FROM [Order]
-            WHERE OrderID = '${req.params.orderID}'
-        `);
-        // Nếu không tồn tại thì gửi lại lỗi 
-        if (!checkResult.rowsAffected[0]) {
-            res.json({
-                success: false,
-                message: "OrderID not exist"
-            });
-
-            // Nếu có tồn tại thì lấy dữ liệu các sản phẩm trong đơn hàng đó
-            // (Tìm trong OrderList các bản ghi có OrderID = req.params.orderID)
-        } else {
-            // orderlist
-            const orderList = await new sql.Request().query(`
-                SELECT OrderList.ProductID, Name, Image, Quantity, Price FROM [OrderList]
-                INNER JOIN [Product] ON OrderList.ProductID = Product.ProductID
-                WHERE OrderID = '${req.params.orderID}'
-            `);
-
-            // Trả về kết quả
-            res.status(200).json({
-                success: true,
-                data: {
-                    detail: checkResult.recordset[0],
-                    orderList: orderList.recordset
-                }
-            });
         }
     } catch (err) {
         // Trả về status500 và lỗi nếu có lỗi trong quá trình giao tiếp với database
