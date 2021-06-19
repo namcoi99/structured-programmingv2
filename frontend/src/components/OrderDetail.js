@@ -17,7 +17,6 @@ class OrderDetail extends Component {
     }
 
     async UNSAFE_componentWillMount() {
-        const username = localStorage.getItem('username');
         const orderID = window.location.pathname.split('/')[2];
         // console.log(orderID);
         try {

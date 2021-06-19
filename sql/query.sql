@@ -19,7 +19,7 @@ INNER JOIN
 ON Statistic.Username = Customer.Username
 
 -- Đơn hàng chưa thanh toán
-SELECT Cart.Username, SUM(Product.Price)*1.05 AS Total FROM [Cart]
+SELECT Cart.Username, SUM(Product.Price*Cart.Quantity)*1.05 AS Total FROM [Cart]
 INNER JOIN [Product] ON Cart.ProductID = Product.ProductID
 GROUP BY Cart.Username
 

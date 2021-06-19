@@ -25,8 +25,8 @@ class ProductTable extends Component {
     render() {
         const all_items = this.props.productList.map(item =>
             <tr>
-                <th scope="row" style={{width: "5%"}}>{item.ProductID}</th>
-                <td style={{width: "15%"}}>
+                <th scope="row" style={{ width: "5%" }}>{item.ProductID}</th>
+                <td style={{ width: "15%" }}>
                     <img src={`http://localhost:5000/image/products/${item.Image}.jpg`} className="img-fluid img-thumbnail" alt="Product Image"
                         style={{
                             backgroundPosition: 'center',
@@ -35,11 +35,11 @@ class ProductTable extends Component {
                             width: '100px'
                         }} />
                 </td>
-                <td style={{width: "15%"}}>{item.Name}</td>
-                <td style={{width: "10%"}}>{item.Category}</td>
-                <td style={{width: "10%"}}>{item.Price}</td>
-                <td style={{width: "25%"}}>{item.Info}</td>
-                <td style={{width: "15%"}}>{item.Sold}</td>
+                <td style={{ width: "15%" }}>{item.Name}</td>
+                <td style={{ width: "10%" }}>{item.Category}</td>
+                <td style={{ width: "10%" }}>{item.Price}</td>
+                <td style={{ width: "25%" }}>{item.Info}</td>
+                <td style={{ width: "15%" }}>{item.Sold}</td>
                 <td>
                     <div className="widget-26-job-starred">
                         <button type="button" className="btn btn-outline-secondary btn-sm mr-2"
@@ -63,39 +63,31 @@ class ProductTable extends Component {
                     <div className="col-12">
                         <div className="card card-employee card-margin">
                             <div className="card-body">
-                                <div className="row search-body">
-                                    <div className="col-lg-12">
-                                        <div className="search-result">
-                                            <div className="result-body">
-                                                <div className="table-responsive">
-                                                    <table className="table widget-26">
-                                                        <thead className="thead-dark">
-                                                            <tr>
-                                                                <th scope="col">ID</th>
-                                                                <th scope="col">Ảnh</th>
-                                                                <th scope="col">Tên sản phẩm</th>
-                                                                <th scope="col">Danh mục</th>
-                                                                <th scope="col">Giá</th>
-                                                                <th scope="col">Mô tả</th>
-                                                                <th scope="col">Số lượng đã bán</th>
-                                                                <th scope="col"></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {all_items}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div className="table-responsive">
+                                    <table className="table widget-26">
+                                        <thead className="thead-dark">
+                                            <tr>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Ảnh</th>
+                                                <th scope="col">Tên sản phẩm</th>
+                                                <th scope="col">Danh mục</th>
+                                                <th scope="col">Giá</th>
+                                                <th scope="col">Mô tả</th>
+                                                <th scope="col">Số lượng đã bán</th>
+                                                <th scope="col"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {all_items}
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 {/*  Add Modal*/}
-                <AddProductModal action="add"/>
+                <AddProductModal action="add" />
             </div>
         );
     }

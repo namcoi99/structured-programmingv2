@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../axios';
+
+import OrderDetailModal from './OrderDetailModal';
+
 import '../Css/order-table.css';
+
+
 const AdminOrderList = () => {
 
     const [orders, setOrders] = useState([])
@@ -43,7 +48,7 @@ const AdminOrderList = () => {
                 const orderList2 = orderData2.data.data.recordset
                 // console.log(orderList.length)
 
-                
+
                 orderList.push(...orderList2);
                 console.log(orderList)
 
@@ -83,16 +88,19 @@ const AdminOrderList = () => {
     }
 
     const orderList = orders ? orders.map(item => (
-        <tr key={item.OrderID}>
+        <tr key={item.OrderID ? item.OrderID : item.Username}>
             <th scope="row">{item.OrderID ? item.OrderID : '---'}</th>
             <td>{item.CreateDate ? item.CreateDate.substr(0, 10) : '---'}</td>
             <td>{item.Username}</td>
-            <td>{item.Total} đ</td>
+            <td>{item.Total} VND</td>
             <td>{item.Status ? item.Status : 'Chưa thanh toán'}</td>
             <td className="text-center">
-                <a href={`/order-detail/${item.OrderID}`}>
+                {/* <a href={`/order-detail/${item.OrderID}`}>
                     <button type="button" className="btn btn-outline-primary btn-sm mr-2"><i className="fas fa-eye"></i></button>
-                </a>
+                </a> */}
+                <button type="button" className="btn btn-outline-primary btn-sm mr-2" data-toggle="modal" data-target={`#viewModal${item.OrderID ? item.OrderID : item.Username}`}>
+                    <i className="fas fa-eye"></i>
+                </button>
                 {item.OrderID ? (
                     <a onClick={() => handleDeleteOrder(item.OrderID)}>
                         <button type="button" className="btn btn-outline-danger btn-sm"><i className="fas fa-trash-alt"></i>
@@ -100,6 +108,8 @@ const AdminOrderList = () => {
                     </a>
                 ) : null}
             </td>
+            {/* View Modal */}
+            <OrderDetailModal item={item} />
         </tr>
     )) : ""
 
