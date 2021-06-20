@@ -140,8 +140,9 @@ class Menu extends Component {
                             <img src={`http://localhost:5000/image/products/${item.Image}`} alt={item.Name}
                                 style={{
                                     backgroundPosition: 'center',
-                                    backgroundRepeat: 'no-repeate',
-                                    height: '300px',
+                                    backgroundRepeat: 'no-repeat',
+                                    height: '400px',
+                                    objectFit: 'contain',
                                     width: '100%'
                                 }} />
                         </a>
@@ -263,7 +264,7 @@ class Menu extends Component {
                             {Products}
                         </div>
                         {/* TODO: Pagination */}
-                        <nav aria-label="Page navigation">
+                        <nav style={{ marginTop: 100}} aria-label="Page navigation">
                             <ul className="pagination justify-content-center pagination-temp">
                                 <li className={`page-item ${this.state.currentPageNumber === 1 ? 'disabled' : ''}`}
                                     onClick={this.handlePrevClick}>
