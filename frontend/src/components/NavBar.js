@@ -98,7 +98,7 @@ class NavBar extends Component {
         //         <a key={item.ProductID} href={`/product/${item.ProductID}`}>
         //             <div key={item.ProductID} className="list-item-right">
         //                 <i className="fas fa-times" area-hidden="true"></i>
-        //                 <img src={`http://localhost:5000/image/products/${item.Image}.jpg`} alt={item.Name} />
+        //                 <img src={`http://localhost:5000/image/products/${item.Image}`} alt={item.Name} />
         //                 <div className="content-item-order">
         //                     <h3>{item.Name}</h3>
         //                     <p>{item.Price}đ*{item.Quantity}</p>

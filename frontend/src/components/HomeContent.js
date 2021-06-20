@@ -93,7 +93,7 @@ class HomeContent extends Component {
                 <div className="trending-item" data-aos="fade-right" data-aos-delay="500">
                     <div className="trending-item-img">
                         <a href={`/product/${item.ProductID}`} target="__blank">
-                            <img src={`http://localhost:5000/image/products/${item.Image}.jpg`} alt={item.Name}
+                            <img src={`http://localhost:5000/image/products/${item.Image}`} alt={item.Name}
                                 style={{
                                     backgroundPosition: 'center',
                                     backgroundRepeat: 'no-repeate',
@@ -125,7 +125,7 @@ class HomeContent extends Component {
         // Biến hiển thị tất cả sản phẩm theo phân loại và phân trang
         const Products = this.state.products.map(item => (
             <div key={item.ProductID} className="card" style={{ width: "20rem" }}>
-                <a href={`/product/${item.ProductID}`} target="__blank"><img className="card-img-top" src={`http://localhost:5000/image/products/${item.Image}.jpg`} alt={item.Name} style={{
+                <a href={`/product/${item.ProductID}`} target="__blank"><img className="card-img-top" src={`http://localhost:5000/image/products/${item.Image}`} alt={item.Name} style={{
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeate',
                     height: '300px',
@@ -144,7 +144,7 @@ class HomeContent extends Component {
                     <div className="trending-item" data-aos="fade-right" data-aos-delay="500">
                         <div className="trending-item-img">
                             <a href={`/product/${item.ProductID}`} target="__blank">
-                                <img src={`http://localhost:5000/image/products/${item.Image}.jpg`} alt={item.Name} style={{
+                                <img src={`http://localhost:5000/image/products/${item.Image}`} alt={item.Name} style={{
                                     backgroundPosition: 'center',
                                     backgroundRepeat: 'no-repeate',
                                     height: '300px',

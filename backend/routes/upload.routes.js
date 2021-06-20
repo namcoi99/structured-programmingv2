@@ -39,12 +39,17 @@ const upload = multer({ //multer settings
 });
 
 // upload.field for upload more fields
-uploadRouter.post('/', upload.single('image'), async (req, res, err) => {
+uploadRouter.post('/', upload.single('image'), async (req, res, next) => {
     console.log(req.file);
-    // handle err ??? how 
+    const file = req.file;
+    if (!file) {
+        const error = new Error('Please upload a file')
+        error.httpStatusCode = 400
+        return next(error);
+    }
     res.status(200).json({
         success: true,
-        data: req.file.filename,
+        filename: req.file.filename,
         session: req.session
     });
 });

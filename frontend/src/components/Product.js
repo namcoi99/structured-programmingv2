@@ -57,7 +57,7 @@ class Product extends Component {
                         <div className="product-bottom-left">
                             <div className="product-bottom-left-img">
                                 {/* link tới ảnh được lưu trong folder public bên backend */}
-                                <img src={`http://localhost:5000/image/products/${this.state.product.Image}.jpg`} alt="" />
+                                <img src={`http://localhost:5000/image/products/${this.state.product.Image}`} alt="" />
                             </div>
                             <div className="product-bottom-left-share">
                             <div class="fb-share-button" data-href="https://www.foody.vn/ha-noi/citea-fun-tea-coffee-ta-quang-buu" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.foody.vn%2Fha-noi%2Fcitea-fun-tea-coffee-ta-quang-buu&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Chia sẻ</a></div>

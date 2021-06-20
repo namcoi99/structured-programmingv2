@@ -13,7 +13,6 @@ productRouter.post('/', async (req, res) => {
         const query = `
                 INSERT INTO [Product]
                 VALUES (
-                    '${req.body.productID}',
                     N'${req.body.name}',
                     '${req.body.price}',
                     N'${req.body.info}',

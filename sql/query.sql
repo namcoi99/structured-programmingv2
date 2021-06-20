@@ -27,3 +27,10 @@ GROUP BY Cart.Username
 SELECT [Order].*, Customer.Name, Customer.Address, Customer.Phone FROM [Order]
 INNER JOIN [Customer] ON Customer.Username = [Order].Username
 WHERE OrderID = '1623982297858'
+
+
+-- DELETE
+DELETE FROM [OrderList]
+DELETE FROM [Cart]
+DELETE FROM [Order]
+DELETE FROM [Product]
