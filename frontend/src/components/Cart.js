@@ -51,6 +51,23 @@ class Cart extends Component {
         }
     }
 
+    handleDeleteAll = async (e) => {
+        e.preventDefault();
+        var confirmMsg = window.confirm("Bạn muốn xóa tất cả sản phẩm trong giỏ hàng?")
+        if (confirmMsg) {
+            const username = localStorage.getItem('username');
+            try {
+                await axios.delete(`/cart/${username}`);
+                this.setState({
+                    cartInfo: [],
+                    total: 0
+                });
+            } catch (err) {
+                console.log(err);
+            }
+        }
+    };
+
     // Xử lý đặt hàng, thêm tất cả các item trong giỏ hàng vào đơn hàng và gửi request tạo đơn hàng trong csdl
     handlePurchase = async (event) => {
         event.preventDefault();
@@ -114,7 +131,7 @@ class Cart extends Component {
                 //     });
                 // }
                 // console.log(this.state.cartInfo);
-                window.location.href='/cart';
+                window.location.href = '/cart';
             })
             .catch(err => console.log(err))
     }
@@ -164,7 +181,7 @@ class Cart extends Component {
                     {/* Tăng giảm số lượng các items ở trang Cart bằng các hàm Decrease và Increase nhận được từ props */}
                     <div className='quantity-sub'>
                         <button type="button" onClick={(event) => this.props.Decrease(item, event)} className="btn btn-dark" ><i className="fas fa-minus" href="/home"></i></button>
-                        <input type="number" name="quantity" min="1" placeholder={item.Quantity} />
+                        <input type="number" name="quantity" min="1" placeholder={item.Quantity} style={{ minWidth: "35px" }} disabled />
                         <button type="button" onClick={(event) => this.props.Increase(item, event)} className="btn btn-light"><i className="fas fa-plus"></i></button>
                     </div>
                 </div>
@@ -182,18 +199,37 @@ class Cart extends Component {
             <div>
                 <NavBar products={this.props.state.products} handleSearch={this.props.handleSearch} Total={this.props.state.Total} count={this.props.state.count} />
                 <div className="cartcontent">
-                <div className="cart-top">
-                   <a href="/">Trang chủ</a>
-                   <i className="fas fa-chevron-right"></i>
-                   <a href="/">Giỏ hàng</a>
-               </div>
+                    <div className="cart-top">
+                        <a href="/">Trang chủ</a>
+                        <i className="fas fa-chevron-right"></i>
+                        <a href="/">Giỏ hàng</a>
+                    </div>
                     <div className="cart-bottom">
                         <div className="cart-bottom-left">
-                        <div className="cart-header">
-                               Tất cả sản phẩm ({this.props.state.count})
-                        </div>
+                            <div className="cart-header mb-3">
+                                <div className="row">
+                                    <div className="col-10">
+                                        Tất cả sản phẩm ({this.props.state.count})
+                                    </div>
+                                    <div className="col-2">
+                                        <button type="button" className="btn btn-danger"
+                                            style={{
+                                                // width: "100%",
+                                                fontSize: "1rem",
+                                                backgroundColor: "#e70029",
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                float: 'right'
+                                            }}
+                                            onClick={this.handleDeleteAll}
+                                        >
+                                            <i class="fas fa-trash-alt" style={{ marginRight: "5px" }}></i>Huỷ
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                             <div className="cart-bottom-left-top">
-                                <div className="list-header">
+                                <div className="list-header" style={{ lineHeight: "3rem", height: "3rem" }}>
                                     <div className='header-product'>
                                         Sản phẩm
                                     </div>
@@ -254,7 +290,7 @@ class Cart extends Component {
                                 <div className="summary-confirm">
                                     <button className="btn btn-danger btn-block" onClick={(event) => { this.handlePurchase(event); }}>
                                         Thanh toán
-                                        </button>
+                                    </button>
                                 </div>
                             </div>
                         </div>
