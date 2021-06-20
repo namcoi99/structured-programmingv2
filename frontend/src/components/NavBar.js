@@ -53,14 +53,19 @@ class NavBar extends Component {
 
     // Gửi request lấy dữ liệu của những sản phẩm bán chạy nhất tới backend
     componentDidMount() {
-        axios.get(`/product/best-seller`)
-            .then(data => {
-                // lưu dữ liệu lấy được vào state
-                this.setState({
-                    products: data.data.data.recordset
+        if (window.localStorage.getItem('admin') == 'true') {
+            alert("You do not have permission to access");
+            window.location.href = "/admin"
+        } else {
+            axios.get(`/product/best-seller`)
+                .then(data => {
+                    // lưu dữ liệu lấy được vào state
+                    this.setState({
+                        products: data.data.data.recordset
+                    })
                 })
-            })
-            .catch(err => console.log(err));
+                .catch(err => console.log(err));
+        }
     }
 
     viewCart = (event) => {
@@ -126,7 +131,7 @@ class NavBar extends Component {
             SignIn = (
                 <li className="nav-item">
                     {/* <div className="nav-link text-white">Chào mừng, {username} </div> */}
-                    <a className="nav-link text-white" href={checkAdmin ? "/admin": null}>Chào mừng, {username} </a>
+                    <a className="nav-link text-white" href={checkAdmin ? "/admin" : null}>Chào mừng, {username} </a>
                 </li>
             )
         }
