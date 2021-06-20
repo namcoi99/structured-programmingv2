@@ -68,38 +68,38 @@ class SignUp extends Component {
                         <form onSubmit={this.handleSubmit}>
                             <div className="form-group">
                                 <label htmlFor="inputAddress">Tên đăng nhập</label>
-                                <input type="text" className="form-control" placeholder="Nhập tên đăng nhập" id="username" name="username" value={this.state.username} onChange={this.handleChange} required/>
+                                <input type="text" className="form-control" placeholder="Nhập tên đăng nhập" id="username" name="username" value={this.state.username} onChange={this.handleChange} required />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="inputAddress">Mật khẩu</label>
-                                <input type="password" className="form-control" placeholder="Nhập mật khẩu" id="password" name="password" value={this.state.password} onChange={this.handleChange} required/>
+                                <input type="password" className="form-control" placeholder="Nhập mật khẩu" id="password" name="password" value={this.state.password} onChange={this.handleChange} required />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="inputAddress">Xác nhận mật khẩu</label>
-                                <input type="password" className="form-control" placeholder="Xác nhận mật khẩu" id="passwordcf" name="passwordcf" value={this.state.passwordcf} onChange={this.handleChange} required/>
+                                <input type="password" className="form-control" placeholder="Xác nhận mật khẩu" id="passwordcf" name="passwordcf" value={this.state.passwordcf} onChange={this.handleChange} required />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="inputAddress">Tên khách hàng</label>
-                                <input type="text" className="form-control" placeholder="Nhập tên đầy đủ" id="name" name="name" value={this.state.name} onChange={this.handleChange} required/>
+                                <label htmlFor="inputAddress">Họ và tên</label>
+                                <input type="text" className="form-control" placeholder="Nhập tên đầy đủ" id="name" name="name" value={this.state.name} onChange={this.handleChange} required />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="inputAddress">Điện thoại</label>
-                                <input type="text" className="form-control" placeholder="Nhập số điện thoại" id="phone" name="phone" value={this.state.phone} onChange={this.handleChange} required/>
+                                <input type="text" pattern="(\+84|0)\d{9,10}" className="form-control" placeholder="Nhập số điện thoại" id="phone" name="phone" value={this.state.phone} onChange={this.handleChange} required />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="inputAddress">Địa chỉ</label>
-                                <input type="text" className="form-control" placeholder="Nhập địa chỉ" id="address" name="address" value={this.state.address} onChange={this.handleChange} required/>
+                                <input type="text" className="form-control" placeholder="Nhập địa chỉ" id="address" name="address" value={this.state.address} onChange={this.handleChange} required />
                             </div>
                             <div className="form-group">
                                 <div className="form-check">
                                     <input className="form-check-input" type="checkbox" id="gridCheck" id="adminRegistering" name="adminRegistering"
-                                    onChange={(e)=> {
-                                        console.log(e.target.checked)
-                                        this.setState({
-                                            code: '',
-                                            adminRegistering: e.target.checked
-                                        });
-                                    }} />
+                                        onChange={(e) => {
+                                            console.log(e.target.checked)
+                                            this.setState({
+                                                code: '',
+                                                adminRegistering: e.target.checked
+                                            });
+                                        }} />
                                     <label className="form-check-label" htmlFor="gridCheck">
                                         Đăng ký với tư cách quản trị viên
                                     </label>
@@ -107,7 +107,7 @@ class SignUp extends Component {
                             </div>
                             {this.state.adminRegistering ? (
                                 <div className="form-group">
-                                    <input type="password" className="form-control" placeholder="Nhập mã quản trị" id="code" name="code" value={this.state.code} onChange={this.handleChange} required/>
+                                    <input type="password" className="form-control" placeholder="Nhập mã quản trị" id="code" name="code" value={this.state.code} onChange={this.handleChange} required />
                                 </div>
                             ) : ""}
                             <button type="submit" className="btn btn-primary">Đăng ký</button>

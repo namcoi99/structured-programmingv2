@@ -375,8 +375,8 @@ select:focus{
     text-decoration: none;
     background-color: transparent;
 }
-.main-menu-display-container{
-    width: 88%;
+.main-menu-display-container {
+    width: 90%;
     margin: 0 auto;
     padding-bottom: 50px;
 }
