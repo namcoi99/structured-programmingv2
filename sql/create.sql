@@ -104,7 +104,7 @@ GO*/
 
 /* cập nhật hàng trong kho sau khi xóa đơn hàng */
 -- DROP TRIGGER trg_DeleteOrder
-/* CREATE TRIGGER trg_DeleteOrder ON [OrderList] FOR DELETE AS 
+CREATE TRIGGER trg_DeleteOrder ON [OrderList] FOR DELETE AS 
 BEGIN
 	UPDATE Product
 	SET Sold = Sold - (
@@ -113,5 +113,5 @@ BEGIN
 	)
 	FROM Product
 	JOIN deleted ON Product.ProductID = deleted.ProductID
-END *?
+END
 

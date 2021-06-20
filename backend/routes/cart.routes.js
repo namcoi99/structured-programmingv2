@@ -102,12 +102,37 @@ cartRouter.post('/', async (req, res) => {
     }
 });
 
+/**
+ * Nhận request xóa sản phẩm trong giỏ hàng
+ * trả về true/báo lỗi
+ */
 cartRouter.delete('/', async (req, res) => {
     try {
         // Xóa sản phẩm trong giỏ hàng trong database
         const result = await new sql.Request().query(`
             DELETE FROM [Cart]
             WHERE ProductID = '${req.body.productID}' AND Username = '${req.body.username}'
+        `);
+        res.status(201).json({ success: true });
+    } catch (err) {
+        // Trả về status500 và lỗi nếu có lỗi trong quá trình giao tiếp với database
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
+    }
+});
+
+/**
+ * Nhận request xóa tất cả sản phẩm của 1 username trong giỏ hàng
+ * trả về true/báo lỗi
+ */
+cartRouter.delete('/:username', async (req, res) => {
+    try {
+        // Xóa sản phẩm trong giỏ hàng trong database
+        const result = await new sql.Request().query(`
+            DELETE FROM [Cart]
+            WHERE Username = '${req.params.username}'
         `);
         res.status(201).json({ success: true });
     } catch (err) {
