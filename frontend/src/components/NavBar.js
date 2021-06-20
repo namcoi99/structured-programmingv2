@@ -54,7 +54,7 @@ class NavBar extends Component {
     // Gửi request lấy dữ liệu của những sản phẩm bán chạy nhất tới backend
     componentDidMount() {
         if (window.localStorage.getItem('admin') == 'true') {
-            alert("You do not have permission to access");
+            alert("Không có quyền truy cập");
             window.location.href = "/admin"
         } else {
             axios.get(`/product/best-seller`)
@@ -75,7 +75,7 @@ class NavBar extends Component {
             window.location.href = '/cart';
         }
         else {
-            alert('You must log in first');
+            alert('Chức năng yêu cầu đăng nhập!');
         }
     }
 
@@ -86,7 +86,7 @@ class NavBar extends Component {
             window.location.href = '/order-list';
         }
         else {
-            alert('You must log in first');
+            alert('Chức năng yêu cầu đăng nhập!');
         }
     }
 
@@ -94,24 +94,10 @@ class NavBar extends Component {
         const prefix = this.state.products ? this.state.products.map(item => (
             <a className='search-1' key={item.ProductID} href={`/product/${item.ProductID}`}>
                 <div className='result-item' key={item.ProductID}>
-                    {item.Name.toString().toLowerCase()}
+                    {item.Name.slice(0, 50)}
                 </div>
             </a>
-        )) : ''
-        // const displayItems = this.props.products ? this.props.products.map(item => (
-        //     <div className="list-item-left">
-        //         <a key={item.ProductID} href={`/product/${item.ProductID}`}>
-        //             <div key={item.ProductID} className="list-item-right">
-        //                 <i className="fas fa-times" area-hidden="true"></i>
-        //                 <img src={`http://localhost:5000/image/products/${item.Image}`} alt={item.Name} />
-        //                 <div className="content-item-order">
-        //                     <h3>{item.Name}</h3>
-        //                     <p>{item.Price}đ*{item.Quantity}</p>
-        //                 </div>
-        //             </div>
-        //         </a>
-        //     </div>
-        // )) : ''
+        )) : null;
 
         // Lấy tên người dùng từ localStorage
         var username = localStorage.getItem('username')
@@ -181,7 +167,9 @@ class NavBar extends Component {
                     </ul>
                     <form className="form-inline my-2 my-lg-0" style={{ position: "relative" }}>
                         <input className="form-control mr-sm-2" type="search" placeholder="Tìm kiếm sản phẩm..."
-                            name="productSearch" id="productSearch" onChange={this.handleChange} />
+                            name="productSearch" id="productSearch" onChange={this.handleChange}
+                            style={{ minWidth: "500px" }}
+                        />
                         <div className='search-container-1'>{prefix}</div>
                         <button className="btn btn-outline-secondary my-2 my-sm-0" type="submit" onClick={(e) => this.handleSubmit(e)}>Tìm kiếm</button>
 

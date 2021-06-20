@@ -10,7 +10,7 @@ export default class ProductFrom extends Component {
     state = {
         Name: this.props.item.Name,
         Category: this.props.item.Category ? this.props.item.Category : 'Bag',
-        Info: this.props.item.Info,
+        Info: this.props.item.Info ? this.props.item.Info : "",
         Price: this.props.item.Price,
         Sold: this.props.item.Sold ? this.props.item.Sold : 0,
 
@@ -208,7 +208,7 @@ export default class ProductFrom extends Component {
                                     <div className="form-group">
                                         <label htmlFor="item-category" className="col-sm-4 col-form-label">Danh mục <span className="required"> *</span></label>
                                         <select className="form-control" id="item-category" name="Category" onChange={this.handleChange}>
-                                            <option value='Bag'>Túi</option>
+                                            <option value='Bag'>Phụ kiện</option>
                                             <option value='Pants'>Quần</option>
                                             <option value='Shirt'>Áo</option>
                                         </select>

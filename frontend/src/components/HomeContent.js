@@ -90,7 +90,7 @@ class HomeContent extends Component {
         // Biến hiển thị các sản phẩm trending
         const Trending = this.state.trendingproducts.map(item => (
             <div key={item.ProductID} className='trending-item-root'>
-                <div className="trending-item" data-aos="fade-right" data-aos-delay="500">
+                <div className="trending-item" data-aos="fade-right" data-aos-delay="500" style={{textAlign: "center"}}>
                     <div className="trending-item-img">
                         <a href={`/product/${item.ProductID}`} target="__blank">
                             <img src={`http://localhost:5000/image/products/${item.Image}`} alt={item.Name}
@@ -134,7 +134,7 @@ class HomeContent extends Component {
                         width: '100%'
                     }} />
                 </a>
-                <div className="card-body">
+                <div className="card-body" style={{textAlign: "center"}}>
                     <h2 className="card-title" style={{ fontWeight: "bolder" }}>{item.Name.length >= 20 ? `${item.Name.slice(0, 20)}...` : item.Name}</h2>
                     <p className="card-text text-success"><span>{item.Price}đ</span></p>
                     <p className="">Số lượng đã bán: {item.Sold}</p>
@@ -219,7 +219,7 @@ class HomeContent extends Component {
                     <div className="main-menu-header">
                         <div className="main-menu-top">Sản phẩm chất lượng nhất♪♫♪♫ </div>
                         <div className="main-menu-center">Choose & enjoy</div>
-                        <div className="main-menu-bottom">
+                        <div className="main-menu-bottom mb-2">
                             Nhanh tay đặt hàng ngay hôm nay
                         </div>
                     </div>
@@ -262,7 +262,7 @@ class HomeContent extends Component {
                         </div>
                     </div>
                     {/* main-manu-display */}
-                    <div className="main-menu-display-container area-1">
+                    <div className="main-menu-display-container area-1 mt-3 mb-2">
                         <div className="sub-main-menu-display-container">
                             {Products}
                         </div>

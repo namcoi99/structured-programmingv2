@@ -134,7 +134,7 @@ class Menu extends Component {
         // component lưu giữ các sản phẩm
         const Products = this.state.products.map(item => (
             <div key={item.ProductID} className='trending-item-root'>
-                <div className="trending-item" data-aos="fade-right" data-aos-delay="500">
+                <div className="trending-item" data-aos="fade-right" data-aos-delay="500" style={{textAlign: "center"}}>
                     <div className="trending-item-img">
                         <a href={`/product/${item.ProductID}`} target="__blank">
                             <img src={`http://localhost:5000/image/products/${item.Image}`} alt={item.Name}

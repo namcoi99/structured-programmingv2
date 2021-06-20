@@ -11,7 +11,7 @@ export default class DelConfirmModal extends Component {
                         <div className="modal-content">
                             <div className="modal-header flex-column">
                                 <div className="icon-box">
-                                    <i className="material-icons">&#xE5CD;</i>
+                                    <i class="fas fa-times"></i>
                                 </div>
                                 <h4 className="modal-title w-100">Bạn có chắc chắn muốn xóa?</h4>
                                 <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -21,7 +21,7 @@ export default class DelConfirmModal extends Component {
                             </div>
                             <div className="modal-footer justify-content-center">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                <button type="submit" className="btn btn-danger" onClick={()=> {this.props.deleteMethod(this.props.objectID)}} data-dismiss="modal">Xác nhận</button>
+                                <button type="submit" className="btn btn-danger" onClick={() => { this.props.deleteMethod(this.props.objectID) }} data-dismiss="modal">Xác nhận</button>
                             </div>
                         </div>
                     </div>

@@ -98,7 +98,12 @@ class App extends Component {
         // Cập nhật lại đơn hàng cho người dùng
         .then(response => {
           console.log(response.data.success)
-          toast.success("Add to cart success!");
+          toast.success(
+            <div>
+              Thêm vào giỏ hàng thành công!{"\t"}
+              <a href="/cart" style={{color: "white", fontWeight: "bold"}}> Xem ngay!</a>
+            </div>
+          );
         })
         .catch(err => console.log(err));
       axios.get(`/cart/${localStorage.getItem('username')}`)
@@ -229,8 +234,8 @@ class App extends Component {
           </React.Suspense>
         </BrowserRouter>
         <ToastContainer
-          autoClose={2000}
-          pauseOnHover={false}
+        // autoClose={3000}
+        // pauseOnHover={true}
         />
         <Footer />
       </div>

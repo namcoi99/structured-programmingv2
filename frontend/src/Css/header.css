@@ -537,6 +537,9 @@ span a{
     top: 30.88px;
     left: 0;
     z-index: 100;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    min-width: 500px;
+    border-radius: 0 0 10px 10px;
 }
 .search-container-2{
     position: absolute;
@@ -553,10 +556,13 @@ span a{
 }
 .result-item{
     background-color: white; 
-    border-bottom: 1px solid rgb(173, 168, 168);
+    border-bottom: 0.5px solid whitesmoke;
     text-decoration: none;
-    padding-left: 10px;
-    color: rgb(107, 103, 103);
+    padding: 10px 10px 10px 15px;
+    color: black;
+    min-width: 500px;
+    min-height: 2rem;
+    line-height: 2rem;
 }
 .search-1{
     display: block;
@@ -565,8 +571,7 @@ span a{
     text-decoration: none;
 }
 .result-item:hover{
-    background-color: gray;
-    color: white;
+    background-color: whitesmoke;
     transform: translateX(60deg);
     transition-duration: 0.7s;
 }

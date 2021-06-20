@@ -199,11 +199,6 @@ class Cart extends Component {
             <div>
                 <NavBar products={this.props.state.products} handleSearch={this.props.handleSearch} Total={this.props.state.Total} count={this.props.state.count} />
                 <div className="cartcontent">
-                    <div className="cart-top">
-                        <a href="/">Trang chủ</a>
-                        <i className="fas fa-chevron-right"></i>
-                        <a href="/">Giỏ hàng</a>
-                    </div>
                     <div className="cart-bottom">
                         <div className="cart-bottom-left">
                             <div className="cart-header mb-3">
@@ -247,7 +242,7 @@ class Cart extends Component {
                                 {cartItems}
                             </div>
                         </div>
-                        <div className="cart-bottom-right">
+                        <div className="cart-bottom-right mt-3">
                             <div className="product-location">
                                 <div className="location-header">Địa chỉ giao hàng</div>
                                 <div className="location-info-2">

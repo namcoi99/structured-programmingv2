@@ -143,6 +143,7 @@
     background-color: white;
     margin: 0 auto;
     padding-bottom: 50px;
+    border-radius: 5px 5px 5px 5px;
 }
 
 .main-menu-header {

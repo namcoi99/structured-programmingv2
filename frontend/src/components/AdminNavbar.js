@@ -51,7 +51,7 @@ class AdminNavbar extends Component {
 
     _checkAdmin = function () {
         if (window.localStorage.getItem('admin') == 'false') {
-            alert("You do not have permission to access");
+            alert("Không có quyền truy cập");
             window.location.href = "/"
         }
     };

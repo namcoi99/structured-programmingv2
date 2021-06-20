@@ -36,7 +36,7 @@ class SignIn extends Component {
                         <div className="sign-up-header">Đăng nhập</div>
                         <form className="form-2" onSubmit={this.handleSubmit}>
                             <div className="form-group col-md-6">
-                                <label htmlFor="inputAddress">Username</label>
+                                <label htmlFor="inputAddress">Tên đăng nhập</label>
                                 <input type="text" className="form-control" id="username" name="username"  placeholder="User name" value={this.state.username} onChange={this.handleChange}/>
                             </div>
                             <div className="form-group col-md-6">
