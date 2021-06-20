@@ -13,7 +13,7 @@ export default class DelConfirmModal extends Component {
                                 <div className="icon-box">
                                     <i className="material-icons">&#xE5CD;</i>
                                 </div>
-                                <h4 className="modal-title w-100">Bạn có muốn xóa?</h4>
+                                <h4 className="modal-title w-100">Bạn có chắc chắn muốn xóa?</h4>
                                 <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                             </div>
                             <div className="modal-body">

@@ -146,37 +146,37 @@ const updateSold = async (orderList) => {
     }
 };
 
-orderRouter.put('/', async (req, res) => {
-    try {
-        const result = await new sql.Request().query(`
-            UPDATE [Order]
-            SET Status =N'${req.body.status}'
-            WHERE OrderID = '${req.body.orderID}'
-        `);
-        // Nếu không tồn tại thì gửi lại lỗi 
-        if (!result.rowsAffected[0]) {
-            res.json({
-                success: false,
-                message: "OrderID not exist"
-            });
-        } else {
-            // Nếu có tồn tại thì thực hiện update số lượng sản phẩm đã bán
-            const orderList = await new sql.Request().query(`
-                SELECT * FROM [OrderList]
-                WHERE OrderID = '${req.body.orderID}'
-            `);
-            updateSold(orderList.recordset);
+// orderRouter.put('/', async (req, res) => {
+//     try {
+//         const result = await new sql.Request().query(`
+//             UPDATE [Order]
+//             SET Status =N'${req.body.status}'
+//             WHERE OrderID = '${req.body.orderID}'
+//         `);
+//         // Nếu không tồn tại thì gửi lại lỗi 
+//         if (!result.rowsAffected[0]) {
+//             res.json({
+//                 success: false,
+//                 message: "OrderID not exist"
+//             });
+//         } else {
+//             // Nếu có tồn tại thì thực hiện update số lượng sản phẩm đã bán
+//             const orderList = await new sql.Request().query(`
+//                 SELECT * FROM [OrderList]
+//                 WHERE OrderID = '${req.body.orderID}'
+//             `);
+//             updateSold(orderList.recordset);
 
-            res.status(201).json({ success: true });
-        }
-    } catch (err) {
-        // Trả về status500 và lỗi nếu có lỗi trong quá trình giao tiếp với database
-        res.status(500).json({
-            success: false,
-            message: err.message
-        });
-    }
-});
+//             res.status(201).json({ success: true });
+//         }
+//     } catch (err) {
+//         // Trả về status500 và lỗi nếu có lỗi trong quá trình giao tiếp với database
+//         res.status(500).json({
+//             success: false,
+//             message: err.message
+//         });
+//     }
+// });
 
 /**
  * Nhận request xóa đơn hàng theo mã đơn hàng
@@ -200,14 +200,14 @@ orderRouter.delete('/:orderID', async (req, res) => {
             // Nếu có tồn tại thì thực hiện xóa orderlist
         } else {
             // Nếu đơn hàng không trong trạng thái đã hủy thì thực hiện update số lượng đã bán
-            if (checkResult.recordset[0].Status != "Đã hủy") {
-                const orderList = await new sql.Request().query(`
-                    SELECT * FROM [OrderList]
-                    WHERE OrderID = '${req.params.orderID}'
-                `);
-                console.log(orderList)
-                updateSold(orderList.recordset);
-            }
+            // if (checkResult.recordset[0].Status != "Đã hủy") {
+            //     const orderList = await new sql.Request().query(`
+            //         SELECT * FROM [OrderList]
+            //         WHERE OrderID = '${req.params.orderID}'
+            //     `);
+            //     console.log(orderList)
+            //     updateSold(orderList.recordset);
+            // }
 
             // Thực hiện xóa OrderList trước do ràng buộc trong CSDL
             const delQuery = `

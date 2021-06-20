@@ -16,7 +16,8 @@ class ProductTable extends Component {
                     alert("Xóa sản phẩm thành công");
                     window.location.reload();
                 } else {
-                    window.alert(data.data.message)
+                    // window.alert(data.data.message)
+                    window.alert("Không thể xóa do sản phẩm đang có mặt trong đơn hàng.\nLỗi ràng buộc tham chiếu.")
                 }
             })
             .catch(err => alert(err.message))
@@ -24,7 +25,7 @@ class ProductTable extends Component {
 
     render() {
         const all_items = this.props.productList.map(item =>
-            <tr>
+            <tr key={item.ProductID}>
                 <th scope="row" style={{ width: "5%" }}>{item.ProductID}</th>
                 <td style={{ width: "15%" }}>
                     <img src={`http://localhost:5000/image/products/${item.Image}`} className="img-fluid img-thumbnail" alt="Product Image"

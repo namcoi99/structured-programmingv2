@@ -11,7 +11,7 @@ export default class EditProductModal extends Component {
                         <div className="modal-content">
                             <div className="modal-header" style={{ backgroundColor: "#47c9a2", color: "white" }}>
                                 <h5 className="modal-title" id="editModalTitle">
-                                    <i className="fas fa-plus-circle"></i> Sửa thông tin sản phẩm</h5>
+                                    <i className="fas fa-plus-circle"></i> Sửa thông tin sản phẩm #{this.props.item.ProductID}</h5>
                                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">×</span>
                                 </button>

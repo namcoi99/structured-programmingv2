@@ -40,20 +40,20 @@ class Order extends Component {
         }
     }
 
-    handleCancelOrder = (orderID) => {
-        var confirmMsg = window.confirm("Bạn có thực sự muốn hủy đơn hàng?")
-        if (confirmMsg) {
-            axios.put("/order", {
-                orderID: orderID,
-                status: "Đã hủy"
-            }).then(res => {
-                console.log(res)
-                this.getData()
-            }).catch(err => {
-                console.log(err)
-            })
-        }
-    }
+    // handleCancelOrder = (orderID) => {
+    //     var confirmMsg = window.confirm("Bạn có thực sự muốn hủy đơn hàng?")
+    //     if (confirmMsg) {
+    //         axios.put("/order", {
+    //             orderID: orderID,
+    //             status: "Đã hủy"
+    //         }).then(res => {
+    //             console.log(res)
+    //             this.getData()
+    //         }).catch(err => {
+    //             console.log(err)
+    //         })
+    //     }
+    // }
 
     render() {
 
@@ -68,11 +68,11 @@ class Order extends Component {
                 <td>{item.Username}</td>
                 <td>{item.Total}đ</td>
                 <td>{item.Status}</td>
-                <td className="text-right">
+                {/* <td className="text-right">
                     {item.Status !== "Đã hủy" ? (
                         <button className="btn btn-danger" onClick={() => this.handleCancelOrder(item.OrderID)}>Hủy đơn hàng</button>
                     ) : ""}
-                </td>
+                </td> */}
             </tr>
         ))
 
@@ -85,7 +85,7 @@ class Order extends Component {
                         <th scope="col">Khách hàng</th>
                         <th scope="col">Tổng giá trị</th>
                         <th scope="col">Trạng thái</th>
-                        <th scope="col"></th>
+                        {/* <th scope="col"></th> */}
                     </tr>
                 </thead>
                 <tbody>

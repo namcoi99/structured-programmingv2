@@ -22,7 +22,7 @@ class AdminDashboard extends Component {
 
     getData = (pageNumber) => {
         axios
-            .get(`/product?pageNumber=${pageNumber}&pageSize=${pageSize}`)
+            .get(`/product?pageNumber=${pageNumber}&pageSize=${pageSize}&sortField=ProductID&sortDirection=0`)
             .then(data => {
                 // console.log(data.data.data.recordset);
                 this.setState({

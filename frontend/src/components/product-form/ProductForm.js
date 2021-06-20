@@ -16,6 +16,7 @@ export default class ProductFrom extends Component {
 
         file: undefined,
         fileName: "",
+        fileHasChange: false,
         imageUrl: this.props.item.Image ? `http://localhost:5000/image/products/${this.props.item.Image}` : "",
         errMessage: ""
     };
@@ -57,6 +58,7 @@ export default class ProductFrom extends Component {
                 this.setState({
                     file: file,
                     fileName: file.name,
+                    fileHasChange: true,
                     imageUrl: fileReader.result,
                     errMessage: ""
                 });
@@ -84,7 +86,7 @@ export default class ProductFrom extends Component {
                 body: formData
             }).then((res) => { return res.json(); });
 
-            // console.log(uploadResult);
+            console.log(uploadResult);
 
             // them san pham
             const postResult = await fetch("http://localhost:5000/product", {
@@ -128,14 +130,17 @@ export default class ProductFrom extends Component {
                 });
             }
             // fetch api tao 1 post gom 2 buoc : up anh + them san pham
-            // upload file (anh)
-            const formData = new FormData();
-            formData.append("image", this.state.file);
-            const uploadResult = await fetch("http://localhost:5000/upload", {
-                method: "POST",
-                credentials: 'include',
-                body: formData
-            }).then((res) => { return res.json(); });
+            // upload file (anh) neu thanh doi
+            let uploadResult = null;
+            if (this.state.fileHasChange) {
+                const formData = new FormData();
+                formData.append("image", this.state.file);
+                uploadResult = await fetch("http://localhost:5000/upload", {
+                    method: "POST",
+                    credentials: 'include',
+                    body: formData
+                }).then((res) => { return res.json(); });
+            }
 
             // console.log(uploadResult);
 
@@ -150,7 +155,7 @@ export default class ProductFrom extends Component {
                     name: this.state.Name,
                     category: this.state.Category,
                     info: this.state.Info,
-                    image: uploadResult.filename,
+                    image: this.state.fileHasChange ? uploadResult.filename : this.props.item.Image,
                     price: this.state.Price,
                     sold: this.state.Sold
                 })
@@ -189,21 +194,23 @@ export default class ProductFrom extends Component {
                                         <input id="form_price" name="Price" value={this.state.Price} type="number" className="form-control" required="required" onChange={this.handleChange} />
                                     </div>
                                 </div>
-                                <div className="col-md-12">
-                                    <div className="form-group">
-                                        <label htmlFor="form_sold">Số lượng đã bán <span className="required"> *</span></label>
-                                        <input id="form_sold" name="Sold" value={this.state.Sold} type="number" className="form-control" required="required" onChange={this.handleChange} />
+                                {this.props.action == "edit" ? (
+                                    <div className="col-md-12">
+                                        <div className="form-group">
+                                            <label htmlFor="form_sold">Số lượng đã bán <span className="required"> *</span></label>
+                                            <input id="form_sold" name="Sold" value={this.state.Sold} type="number" className="form-control" required="required" disabled />
+                                        </div>
                                     </div>
-                                </div>
+                                ) : null}
                             </div>
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="form-group">
                                         <label htmlFor="item-category" className="col-sm-4 col-form-label">Danh mục <span className="required"> *</span></label>
                                         <select className="form-control" id="item-category" name="Category" onChange={this.handleChange}>
-                                            <option value='Bag'>Bag</option>
-                                            <option value='Pants'>Pants</option>
-                                            <option value='Shirt'>Shirt</option>
+                                            <option value='Bag'>Túi</option>
+                                            <option value='Pants'>Quần</option>
+                                            <option value='Shirt'>Áo</option>
                                         </select>
                                     </div>
                                 </div>
@@ -231,7 +238,7 @@ export default class ProductFrom extends Component {
                                     <i className="fas fa-cloud-upload-alt upload-icon"></i>
                                 )}
                                 <input type="file" id="customFile" style={{ marginTop: "1rem" }}
-                                    onChange={this.handleFileChange} required />
+                                    onChange={this.handleFileChange} required={this.props.action == "add"} />
                             </div>
                             {this.state.errMessage ? (
                                 <div class="alert alert-danger" role="alert">
