@@ -11,7 +11,7 @@ orderRouter.get('/', async (req, res) => {
         // Lấy dữ liệu từ CSDL
         const result = await new sql.Request().query(`
             SELECT * FROM [Order]
-            ${req.query.username === 'all' ? '' : `WHERE Username = '${req.query.username}`} 
+            ${req.query.username === 'all' ? '' : `WHERE Username = '${req.query.username}'`} 
             ORDER BY CreateDate DESC 
         `);
 
