@@ -96,15 +96,16 @@ class HomeContent extends Component {
                             <img src={`http://localhost:5000/image/products/${item.Image}`} alt={item.Name}
                                 style={{
                                     backgroundPosition: 'center',
-                                    backgroundRepeat: 'no-repeate',
-                                    height: '300px',
+                                    backgroundRepeat: 'no-repeat',
+                                    height: '400px',
+                                    objectFit: 'contain',
                                     width: '100%'
                                 }} />
                         </a>
                     </div>
                     <div className="trending-item-text">
                         <a href={`/product/${item.ProductID}`} target="__blank">
-                            <h2>{item.Name}</h2>
+                            <h2>{item.Name.length >= 20 ? `${item.Name.slice(0, 20)}...` : item.Name}</h2>
                         </a>
                     </div>
                     <div className="trending-item-cost">
@@ -125,14 +126,16 @@ class HomeContent extends Component {
         // Biến hiển thị tất cả sản phẩm theo phân loại và phân trang
         const Products = this.state.products.map(item => (
             <div key={item.ProductID} className="card" style={{ width: "20rem" }}>
-                <a href={`/product/${item.ProductID}`} target="__blank"><img className="card-img-top" src={`http://localhost:5000/image/products/${item.Image}`} alt={item.Name} style={{
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeate',
-                    height: '300px',
-                    width: '100%'
-                }} /></a>
+                <a href={`/product/${item.ProductID}`} target="__blank">
+                    <img className="card-img-top" src={`http://localhost:5000/image/products/${item.Image}`} alt={item.Name} style={{
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat',
+                        height: '300px',
+                        width: '100%'
+                    }} />
+                </a>
                 <div className="card-body">
-                    <h2 className="card-title" style={{ fontWeight: "bolder" }}>{item.Name.slice(0,10)}...</h2>
+                    <h2 className="card-title" style={{ fontWeight: "bolder" }}>{item.Name.length >= 20 ? `${item.Name.slice(0, 20)}...` : item.Name}</h2>
                     <p className="card-text text-success"><span>{item.Price}đ</span></p>
                     <p className="">Số lượng đã bán: {item.Sold}</p>
                     <button type="button" className="btn btn-danger" onClick={(event) => { this.props.addtoCart(item, 1, event) }}>
@@ -224,9 +227,9 @@ class HomeContent extends Component {
                     <div className="pagination">
                         <div className="pagination-item pag-1"
                             // Thay đổi sản phẩm theo phân loại(Category)
-                            onClick={() => {
+                            onClick={async () => {
                                 // Thay đổi phân loại hiện tại trong state khi click vào phân loại tương ứng
-                                this.setState({
+                                await this.setState({
                                     currentCategory: 'Shirt',
                                     currentPageNumber: 1,
                                 });
@@ -236,8 +239,8 @@ class HomeContent extends Component {
                             <h2>Áo</h2>
                         </div>
                         <div className="pagination-item pag-2"
-                            onClick={() => {
-                                this.setState({
+                            onClick={async () => {
+                                await this.setState({
                                     currentCategory: 'Pants',
                                     currentPageNumber: 1,
                                 });
@@ -247,8 +250,8 @@ class HomeContent extends Component {
                             <h2>Quần</h2>
                         </div>
                         <div className="pagination-item pag-3"
-                            onClick={() => {
-                                this.setState({
+                            onClick={async () => {
+                                await this.setState({
                                     currentCategory: 'Bag',
                                     currentPageNumber: 1
                                 });

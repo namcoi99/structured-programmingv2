@@ -16,6 +16,9 @@ import AdminNavbar from './components/AdminNavbar.js';
 import Footer from './components/Footer.js';
 import AdminOrderList from './components/AdminOrderList.js';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>;
 
 
@@ -95,6 +98,7 @@ class App extends Component {
         // Cập nhật lại đơn hàng cho người dùng
         .then(response => {
           console.log(response.data.success)
+          toast.success("Add to cart success!");
         })
         .catch(err => console.log(err));
       axios.get(`/cart/${localStorage.getItem('username')}`)
@@ -224,6 +228,10 @@ class App extends Component {
             </Switch>
           </React.Suspense>
         </BrowserRouter>
+        <ToastContainer
+          autoClose={2000}
+          pauseOnHover={false}
+        />
         <Footer />
       </div>
 
