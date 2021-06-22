@@ -50,7 +50,7 @@ class SignUp extends Component {
                     // Sau khi đăng ký thành công 1s thì tự động chuyển sang trang đăng nhập
                     setTimeout(function () { window.location.href = '/signin'; }, 1000);
                 })
-                .catch(err => {
+                .catch((err) => {
                     alert("Đăng ký thất bại")
                     console.log(err)
                 })

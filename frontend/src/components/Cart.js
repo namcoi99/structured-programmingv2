@@ -267,7 +267,7 @@ class Cart extends Component {
                                     </div>
                                     <div className="ship-fee">
                                         <div className="ship-fee-left">Phí vận chuyển:</div>
-                                        <div className="ship-fee-right">{this.props.state.Total / 20}đ</div>
+                                        <div className="ship-fee-right">{Math.round(this.props.state.Total / 20)}đ</div>
                                     </div>
                                 </div>
                                 {/* <div className="summary-voucher">
@@ -277,7 +277,7 @@ class Cart extends Component {
                                 <div className="summary-total">
                                     <div className="summary-total-left">Tổng:</div>
                                     <div className="summary-total-right">
-                                        <div>{this.props.state.Total * 1.05}đ</div>
+                                        <div>{Math.round(this.props.state.Total * 1.05)}đ</div>
                                         <div>(đã bao gồm VAT)</div>
                                     </div>
                                 </div>

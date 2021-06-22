@@ -26,7 +26,7 @@ class AdminDashboard extends Component {
             .then(data => {
                 // console.log(data.data.data.recordset);
                 this.setState({
-                    total:  data.data.data.total,
+                    total: data.data.data.total,
                     results: data.data.data.recordset,
                     maxPageNumber: Math.ceil(data.data.data.total / pageSize)
                 });
@@ -69,8 +69,8 @@ class AdminDashboard extends Component {
         return (
             <div>
                 {/* <UserTable /> */}
-                <div className="container mt-3">
-                    <ProductTable productList={this.state.results}/>
+                <div className="container mt-3" id="product-table" style={{ minHeight: "80vh" }}>
+                    <ProductTable productList={this.state.results} />
                 </div>
 
                 {/* Pagination */}
@@ -78,7 +78,7 @@ class AdminDashboard extends Component {
                     <ul className="pagination pagination-base pagination-boxed pagination-square mb-0">
                         <li className={`page-item ${this.state.currentPageNumber === 1 ? 'disabled' : ''}`}
                             onClick={this.handlePrevClick}>
-                            <a className="page-link no-border" href="#">
+                            <a className="page-link no-border" href="#product-table">
                                 <span aria-hidden="true">«</span>
                                 <span className="sr-only">Previous</span>
                             </a>
@@ -89,13 +89,13 @@ class AdminDashboard extends Component {
                                     key={item}
                                     onClick={() => { this.handlePageChange(item) }}
                                 >
-                                    <a className="page-link" href="#">{item}</a>
+                                    <a className="page-link" href="#product-table">{item}</a>
                                 </li>
                             );
                         })}
                         <li className={`page-item ${this.state.currentPageNumber === this.state.maxPageNumber ? 'disabled' : ''}`}
                             onClick={this.handleNextClick}>
-                            <a className="page-link no-border" href="#">
+                            <a className="page-link no-border" href="#product-table">
                                 <span aria-hidden="true">»</span>
                                 <span className="sr-only">Next</span>
                             </a>

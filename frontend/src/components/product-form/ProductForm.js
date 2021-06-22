@@ -207,7 +207,7 @@ export default class ProductFrom extends Component {
                                 <div className="col-md-12">
                                     <div className="form-group">
                                         <label htmlFor="item-category" className="col-sm-4 col-form-label">Danh mục <span className="required"> *</span></label>
-                                        <select className="form-control" id="item-category" name="Category" onChange={this.handleChange}>
+                                        <select className="form-control" id="item-category" name="Category" defaultValue={this.state.Category} onChange={this.handleChange}>
                                             <option value='Bag'>Phụ kiện</option>
                                             <option value='Pants'>Quần</option>
                                             <option value='Shirt'>Áo</option>

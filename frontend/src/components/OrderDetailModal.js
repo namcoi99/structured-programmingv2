@@ -156,11 +156,11 @@ export default function OrderDetailModal(props) {
                                                     <tr><td colSpan="6"><hr></hr></td></tr>
                                                     <tr style={{ color: "gray" }}>
                                                         <td colspan="5">Phí vận chuyển: </td>
-                                                        <td>{total / 20} VND</td>
+                                                        <td>{Math.round(total / 20)} VND</td>
                                                     </tr>
                                                     <tr className="mt-3" style={{ color: "red", fontWeight: "bold" }}>
                                                         <td colspan="5">Tổng cộng:</td>
-                                                        <td>{total * 1.05} VND</td>
+                                                        <td>{Math.round(total * 1.05)} VND</td>
                                                     </tr>
                                                 </tbody>
                                             </table>

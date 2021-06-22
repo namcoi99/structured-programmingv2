@@ -92,7 +92,7 @@ const AdminOrderList = () => {
             <th scope="row">{item.OrderID ? item.OrderID : '---'}</th>
             <td>{item.CreateDate ? item.CreateDate.substr(0, 10) : '---'}</td>
             <td>{item.Username}</td>
-            <td>{item.Total} VND</td>
+            <td>{Math.round(item.Total)} VND</td>
             <td>{item.Status ? item.Status : 'Chưa thanh toán'}</td>
             <td className="text-center">
                 {/* <a href={`/order-detail/${item.OrderID}`}>

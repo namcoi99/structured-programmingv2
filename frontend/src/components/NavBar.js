@@ -60,8 +60,9 @@ class NavBar extends Component {
             axios.get(`/product/best-seller`)
                 .then(data => {
                     // lưu dữ liệu lấy được vào state
+                    let newProducts = data.data.data.recordset
                     this.setState({
-                        products: data.data.data.recordset
+                        products: newProducts ? newProducts : []
                     })
                 })
                 .catch(err => console.log(err));
@@ -91,13 +92,20 @@ class NavBar extends Component {
     }
 
     render() {
-        const prefix = this.state.products ? this.state.products.map(item => (
-            <a className='search-1' key={item.ProductID} href={`/product/${item.ProductID}`}>
-                <div className='result-item' key={item.ProductID}>
-                    {item.Name.slice(0, 50)}
+        const prefix = this.state.productSearch !== "" && this.state.products.length === 0 ? (
+            <div className="search-1">
+                <div className='result-item'>
+                    Không tìm thấy kết quả
                 </div>
-            </a>
-        )) : null;
+            </div>
+        )
+            : this.state.products.map(item => (
+                <a className='search-1' key={item.ProductID} href={`/product/${item.ProductID}`}>
+                    <div className='result-item' key={item.ProductID}>
+                        {item.Name.slice(0, 50)}
+                    </div>
+                </a>
+            ));
 
         // Lấy tên người dùng từ localStorage
         var username = localStorage.getItem('username')

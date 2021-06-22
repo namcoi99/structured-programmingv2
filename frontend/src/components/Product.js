@@ -71,13 +71,13 @@ class Product extends Component {
                             </div>
                             <div className="product-price">{this.state.product.Price}đ</div>
                             <div className="product-option">
-                                <div>Số lượng đã bán: {this.state.product.Sold}</div>
+                                <div>Số lượng đã bán: {this.state.product.Sold}</div>   
                                 <div className="option-quantity">
                                     <div>Số lượng</div>
                                     <div className="quantity">
 
                                         <button type="button" onClick={this.Decrease} className="btn btn-dark"><i className="fas fa-minus" href="/"></i></button>
-                                        <input type="text" placeholder={this.state.quantity} />
+                                        <input style={{minWidth:40}} type="text" placeholder={this.state.quantity} />
                                         <button type="button" onClick={this.Increment} className="btn btn-light"><i className="fas fa-plus"></i></button>
 
                                     </div>

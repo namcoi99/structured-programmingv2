@@ -90,9 +90,6 @@ class AdminNavbar extends Component {
                         <li className="nav-item">
                             <a className="nav-link" href="/admin/orders">Đơn Hàng</a>
                         </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/admin/users" >Khách hàng</a>
-                        </li>
                         {/* <li className="nav-item">
                             <a className="nav-link" href="/admin/product" >Sản phẩm</a>
                         </li> */}
