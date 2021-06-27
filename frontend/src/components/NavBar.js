@@ -157,7 +157,7 @@ class NavBar extends Component {
                             <a className="nav-link" href="/">Trang chủ <span className="sr-only">(current)</span></a>
                         </li>
                         <li className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a className="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Sản phẩm
                             </a>
                             <div className="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -167,10 +167,10 @@ class NavBar extends Component {
                             </div>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#" onClick={this.viewCart}>Giỏ hàng</a>
+                            <a className="nav-link" href={username ? "/cart" : "/"} onClick={this.viewCart}>Giỏ hàng</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#" onClick={this.viewOrder}>Đơn hàng</a>
+                            <a className="nav-link" href={username ? "/order-list" : "/"} onClick={this.viewOrder}>Đơn hàng</a>
                         </li>
                     </ul>
                     <form className="form-inline my-2 my-lg-0" style={{ position: "relative" }}>
