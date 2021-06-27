@@ -198,7 +198,7 @@ class Cart extends Component {
         return (
             <div>
                 <NavBar products={this.props.state.products} handleSearch={this.props.handleSearch} Total={this.props.state.Total} count={this.props.state.count} />
-                <div className="cartcontent">
+                <div className="cartcontent" style={{ minHeight: "80vh" }}>
                     <div className="cart-bottom">
                         <div className="cart-bottom-left">
                             <div className="cart-header mb-3">
