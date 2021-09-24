@@ -18,10 +18,10 @@ const adminRouter = require('./routes/admin.routes');
 // const isAdmin = require('./middleware/checkPermission');
 
 const config = {
-    user: 'tung12345',
-    password: 'tung12345',
+    user: 'tung',
+    password: 'tung',
     server: 'localhost',
-    database: 'WebCSDL',
+    database: 'TungCSDL',
     options: {
         encrypt: false,
     }
